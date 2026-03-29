@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://pwgykot6pgcf"]
+
+[ext_resource type="FontFile" uid="uid://dskmdk146n4rq" path="res://assets/pixel_rpg.ttf" id="1_uonaj"]
+
+[resource]
+default_font = ExtResource("1_uonaj")
+default_font_size = 6
