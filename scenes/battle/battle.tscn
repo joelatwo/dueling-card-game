@@ -40,9 +40,12 @@ script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="BattleUI/Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
+metadata/Power = 1
 
 [node name="CardUI2" parent="BattleUI/Hand" unique_id=1008182838 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
+metadata/Power = 2
 
 [node name="CardUI3" parent="BattleUI/Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
+metadata/Power = 3
