@@ -8,8 +8,3 @@ func _ready() -> void:
 		
 func _on_card_ui_reparent_requested(child: CardUI) -> void:
 	child.reparent(self)
-
-func get_card_in_hand_properties(card: CardUI) -> void:
-	var hand_ratio = .5
-	if get_child_count() > 1:
-		hand_ratio = float(card.get_index()) / float(get_child_count() -1)
