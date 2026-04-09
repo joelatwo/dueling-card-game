@@ -23,6 +23,7 @@ func _ready() -> void:
 		print(child)
 	#print(skirmishes.size())
 	advance(TurnState.PLAYER_PLAYS_CARD)
+	print("card 1")
 	pass # Replace with function body.
 
 func advance(next_state: TurnState) -> void:
