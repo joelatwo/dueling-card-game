@@ -42,7 +42,8 @@ script = ExtResource("2_xd4uy")
 [node name="Game" type="Node" parent="." unique_id=1847879744]
 script = ExtResource("4_0yh6x")
 
-[node name="NPC Hand" type="Node" parent="Game" unique_id=364427493]
+[node name="NPC Hand" type="HBoxContainer" parent="Game" unique_id=364427493]
+script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
 anchors_preset = 0
@@ -68,7 +69,8 @@ grow_horizontal = 1
 grow_vertical = 1
 metadata/Power = 3
 
-[node name="Player Hand" type="Node" parent="Game" unique_id=837784691]
+[node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=837784691]
+script = ExtResource("2_xd4uy")
 
 [node name="CardUI2" parent="Game/Player Hand" unique_id=1008182838 instance=ExtResource("2_ffvsa")]
 anchors_preset = 0

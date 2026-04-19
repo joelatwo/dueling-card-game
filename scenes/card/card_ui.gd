@@ -9,6 +9,11 @@ signal reparent_requested(which_card_ui: CardUI)
 @onready var drop_point_detector: Area2D = $DropPointDetector
 @onready var targets: Array[Node] = []
 
+@export var strength: int = 1
+
+func activate_ability():
+	print("Ability of ", name, " activated")
+
 func _ready() -> void:
 	card_state_machine.init(self)
 
