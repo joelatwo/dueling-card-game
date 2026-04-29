@@ -20,6 +20,7 @@ var player_hand: Hand
 var npc_hand: Hand
 var play_cards_button: Button
 var state_label: Label
+var skirmish_display: VBoxContainer
 var player_card_selected: bool = false
 const WIN_SCORE = 3
 
@@ -31,6 +32,7 @@ func _ready() -> void:
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	state_label = root_scene.get_node("Game/StateLabel") as Label
+	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as VBoxContainer
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 	# Populate hands with fake cards
 	var card_scene = preload("res://scenes/card/card_ui.tscn")
@@ -45,11 +47,70 @@ func _ready() -> void:
 func advance(next_state: TurnState) -> void:
 	state = next_state
 	_update_state_label()
+	_update_skirmish_display()
 	_update_button_state()
 	_process_state()
 
 func _update_state_label() -> void:
 	state_label.text = TurnState.keys()[state]
+
+func _update_skirmish_display() -> void:
+	# Clear existing display immediately
+	while skirmish_display.get_child_count() > 0:
+		skirmish_display.remove_child(skirmish_display.get_child(0))
+	
+	# Create horizontal container for all skirmishes (left to right)
+	var skirmishes_row = HBoxContainer.new()
+	skirmishes_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	
+	# Create a column for each skirmish
+	for skirmish in skirmishes:
+		var skirmish_column = VBoxContainer.new()
+		skirmish_column.alignment = BoxContainer.ALIGNMENT_CENTER
+		
+		# NPC card placeholder/display (top)
+		var npc_container = PanelContainer.new()
+		npc_container.custom_minimum_size = Vector2(80, 100)
+		var npc_label = Label.new()
+		if skirmish.opponentCard:
+			npc_label.text = "NPC\n%d" % skirmish.opponentCard.strength
+		else:
+			npc_label.text = "NPC\n?"
+		npc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		npc_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		npc_container.add_child(npc_label)
+		skirmish_column.add_child(npc_container)
+		
+		# Separator
+		var separator = Label.new()
+		separator.text = "vs"
+		separator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		skirmish_column.add_child(separator)
+		
+		# Player card placeholder/display (bottom)
+		var player_container = PanelContainer.new()
+		player_container.custom_minimum_size = Vector2(80, 100)
+		var player_label = Label.new()
+		if skirmish.playerCard:
+			player_label.text = "Player\n%d" % skirmish.playerCard.strength
+		else:
+			player_label.text = "Player\n?"
+		player_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		player_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		player_container.add_child(player_label)
+		skirmish_column.add_child(player_container)
+		
+		# Winner
+		if skirmish.winner:
+			var winner_label = Label.new()
+			winner_label.text = "[%s]" % skirmish.winner.to_upper()
+			winner_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			skirmish_column.add_child(winner_label)
+		
+		skirmishes_row.add_child(skirmish_column)
+	
+	skirmish_display.add_child(skirmishes_row)
+	print("Updated skirmish display with %d skirmishes" % skirmishes.size())
 
 func _update_button_state() -> void:
 	if state == TurnState.PLAYER_PLAYS_CARD:
@@ -113,7 +174,7 @@ func _npc_plays_card() -> void:
 	print("NPC plays card")
 	if npc_hand.get_child_count() > 0:
 		var card = npc_hand.get_child(0)
-		# npc_hand.remove_child(card)
+		npc_hand.remove_child(card)
 		current_skirmish.opponentCard = card
 		print("Waiting to compare cards...")
 		# TODO: Automatically advance to COMPARE_CARDS when ready

@@ -40,11 +40,9 @@ alignment = 1
 script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
-layout_mode = 2
 metadata/Power = 1
 
 [node name="CardUI3" parent="Game/NPC Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
-layout_mode = 2
 metadata/Power = 3
 
 [node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=1868080579]
@@ -63,11 +61,9 @@ alignment = 1
 script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/Player Hand" unique_id=1299818422 instance=ExtResource("2_ffvsa")]
-layout_mode = 2
 metadata/Power = 1
 
 [node name="CardUI3" parent="Game/Player Hand" unique_id=1483522550 instance=ExtResource("2_ffvsa")]
-layout_mode = 2
 metadata/Power = 3
 
 [node name="PlayCardsButton" type="Button" parent="Game" unique_id=1999999999]
@@ -76,10 +72,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -25.0
-offset_right = -10.0
-offset_bottom = 25.0
+offset_left = -91.0
+offset_top = 8.0
+offset_right = -2.0
+offset_bottom = 39.0
 grow_horizontal = 0
 grow_vertical = 2
 disabled = true
@@ -91,12 +87,23 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -80.0
-offset_top = -10.0
-offset_right = 80.0
-offset_bottom = 10.0
+offset_left = 15.0
+offset_top = -46.0
+offset_right = 142.0
+offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "START_OF_TURN"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="SkirmishDisplay" type="VBoxContainer" parent="Game" unique_id=2000000001]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 50.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+clip_contents = true
