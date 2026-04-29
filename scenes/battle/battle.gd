@@ -33,7 +33,7 @@ func _ready() -> void:
 		player_hand.add_child(card)
 		var card2 = card_scene.instantiate()
 		npc_hand.add_child(card2)
-	advance(TurnState.START_OF_TURN)
+	#advance(TurnState.START_OF_TURN)
 	print("Game started")
 
 func advance(next_state: TurnState) -> void:
