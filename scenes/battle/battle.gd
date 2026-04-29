@@ -18,6 +18,9 @@ var npc_score: int = 0
 var current_skirmish: Skirmish
 var player_hand: Hand
 var npc_hand: Hand
+var play_cards_button: Button
+var state_label: Label
+var player_card_selected: bool = false
 const WIN_SCORE = 3
 
 # Called when the node enters the scene tree for the first time.
@@ -26,6 +29,9 @@ func _ready() -> void:
 	var root_scene = get_tree().current_scene
 	player_hand = root_scene.get_node("Game/Player Hand") as Hand
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
+	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
+	state_label = root_scene.get_node("Game/StateLabel") as Label
+	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 	# Populate hands with fake cards
 	var card_scene = preload("res://scenes/card/card_ui.tscn")
 	for i in 5:
@@ -33,12 +39,37 @@ func _ready() -> void:
 		player_hand.add_child(card)
 		var card2 = card_scene.instantiate()
 		npc_hand.add_child(card2)
-	#advance(TurnState.START_OF_TURN)
+	advance(TurnState.START_OF_TURN)
 	print("Game started")
 
 func advance(next_state: TurnState) -> void:
 	state = next_state
+	_update_state_label()
+	_update_button_state()
 	_process_state()
+
+func _update_state_label() -> void:
+	state_label.text = TurnState.keys()[state]
+
+func _update_button_state() -> void:
+	if state == TurnState.PLAYER_PLAYS_CARD:
+		play_cards_button.disabled = !player_card_selected
+		play_cards_button.visible = true
+	else:
+		play_cards_button.visible = false
+
+func _on_play_cards_button_pressed() -> void:
+	if state == TurnState.PLAYER_PLAYS_CARD:
+		if player_hand.get_child_count() > 0:
+			var card = player_hand.get_child(0)
+			player_hand.remove_child(card)
+			current_skirmish.playerCard = card
+			print("Player locked in card: ", card.name)
+			advance(TurnState.NPC_PLAYS_CARD)
+		else:
+			print("Player has no cards, NPC wins")
+			npc_score = WIN_SCORE
+			advance(TurnState.CHECK_END_CONDITION)
 	
 func _process_state() -> void:
 	match state:
@@ -70,27 +101,23 @@ func _start_of_turn() -> void:
 	print("Start of turn")
 	current_skirmish = Skirmish.new()
 	skirmishes.append(current_skirmish)
+	print("Moving to player card selection...")
 	advance(TurnState.PLAYER_PLAYS_CARD)
 
 func _player_plays_card() -> void:
-	print("Player plays card")
-	if player_hand.get_child_count() > 0:
-		var card = player_hand.get_child(0)
-		player_hand.remove_child(card)
-		current_skirmish.playerCard = card
-		advance(TurnState.NPC_PLAYS_CARD)
-	else:
-		print("Player has no cards, NPC wins")
-		npc_score = WIN_SCORE
-		advance(TurnState.CHECK_END_CONDITION)
+	print("Player selecting a card - click the button to lock in the leftmost card")
+	player_card_selected = true
+	_update_button_state()
 
 func _npc_plays_card() -> void:
 	print("NPC plays card")
 	if npc_hand.get_child_count() > 0:
 		var card = npc_hand.get_child(0)
-		npc_hand.remove_child(card)
+		# npc_hand.remove_child(card)
 		current_skirmish.opponentCard = card
-		advance(TurnState.COMPARE_CARDS)
+		print("Waiting to compare cards...")
+		# TODO: Automatically advance to COMPARE_CARDS when ready
+		# advance(TurnState.COMPARE_CARDS)
 	else:
 		print("NPC has no cards, Player wins")
 		player_score = WIN_SCORE
@@ -107,7 +134,9 @@ func _compare_cards() -> void:
 		current_skirmish.winner = "npc"
 	else:
 		current_skirmish.winner = "tie"
-	advance(TurnState.AWARD_POINT)
+	print("Waiting to award point...")
+	# TODO: Automatically advance to AWARD_POINT when ready
+	# advance(TurnState.AWARD_POINT)
 
 func _award_point() -> void:
 	print("Awarding point")
@@ -119,7 +148,9 @@ func _award_point() -> void:
 		print("NPC score: ", npc_score)
 	else:
 		print("Tie, no point awarded")
-	advance(TurnState.ACTIVATE_ABILITY)
+	print("Waiting to activate ability...")
+	# TODO: Automatically advance to ACTIVATE_ABILITY when ready
+	# advance(TurnState.ACTIVATE_ABILITY)
 
 func _activate_ability() -> void:
 	print("Activating ability")
@@ -129,13 +160,17 @@ func _activate_ability() -> void:
 		current_skirmish.playerCard.activate_ability()
 	else:
 		print("No ability activated due to tie")
-	advance(TurnState.RECALCULATE)
+	print("Waiting to recalculate...")
+	# TODO: Automatically advance to RECALCULATE when ready
+	# advance(TurnState.RECALCULATE)
 
 func _recalculate() -> void:
 	print("Recalculating")
 	print("Player and NPC draw 1 card")
 	# For now, no recalculation needed
-	advance(TurnState.CHECK_END_CONDITION)
+	print("Waiting to check end condition...")
+	# TODO: Automatically advance to CHECK_END_CONDITION when ready
+	# advance(TurnState.CHECK_END_CONDITION)
 
 func _check_end_condition() -> void:
 	print("Checking end condition")

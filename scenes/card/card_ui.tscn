@@ -13,33 +13,28 @@ size = Vector2(25, 30)
 
 [node name="CardUI" type="Control" unique_id=561502986]
 custom_minimum_size = Vector2(25, 30)
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -231.0
-offset_bottom = -114.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 script = ExtResource("1_0hxw5")
 metadata/Power = 0
 metadata/Ability = ""
 metadata/ImagePath = ""
 
 [node name="Color" type="ColorRect" parent="." unique_id=123456789]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.5, 0.5, 0.5, 1)
 
 [node name="State" type="Label" parent="." unique_id=987654321]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_472ju")
@@ -48,6 +43,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 collision_mask = 2
 monitorable = false
+
+[node name="DropPointDetector" type="Area2D" parent="." unique_id=443549441]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetector" unique_id=443549442]
 position = Vector2(12.5, 15)
@@ -72,21 +69,23 @@ state = 2
 script = ExtResource("7_hnt4k")
 state = 4
 
-[node name="Color" type="ColorRect" parent="." unique_id=2090373436]
-layout_mode = 1
+[node name="Color2" type="ColorRect" parent="." unique_id=2090373436]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0.7882353, 1, 1)
 
-[node name="State" type="Label" parent="." unique_id=877699388]
-layout_mode = 1
+[node name="State2" type="Label" parent="." unique_id=877699388]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_472ju")
