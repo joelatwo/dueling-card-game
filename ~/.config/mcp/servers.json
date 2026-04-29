@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "MCP_FS_ROOT": "/absolute/path/to/your/godot/project"
+      }
+    },
+    "terminal": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-terminal"]
+    }
+  }
+}

@@ -12,6 +12,8 @@ size = Vector2(256, 80)
 metadata/_edit_lock_ = true
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1953009934]
+visible = false
+z_index = -1
 texture = ExtResource("1_7gynk")
 centered = false
 metadata/_edit_lock_ = true
@@ -25,61 +27,46 @@ shape = SubResource("RectangleShape2D_xd4uy")
 
 [node name="BattleUI" type="CanvasLayer" parent="." unique_id=253945018 groups=["ui_layer"]]
 
-[node name="Hand" type="HBoxContainer" parent="BattleUI" unique_id=1868080579]
+[node name="Game" type="CanvasLayer" parent="." unique_id=1847879744]
+layer = 2
+script = ExtResource("4_0yh6x")
+
+[node name="NPC Hand" type="HBoxContainer" parent="Game" unique_id=364427493]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+size_flags_horizontal = 6
+alignment = 1
+script = ExtResource("2_xd4uy")
+
+[node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
+metadata/Power = 1
+
+[node name="CardUI3" parent="Game/NPC Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
+metadata/Power = 3
+
+[node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=1868080579]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -128.0
-offset_top = -33.0
+offset_top = -34.0
 offset_right = 128.0
+offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 0
 alignment = 1
 script = ExtResource("2_xd4uy")
 
-[node name="Game" type="Node" parent="." unique_id=1847879744]
-script = ExtResource("4_0yh6x")
-
-[node name="NPC Hand" type="HBoxContainer" parent="Game" unique_id=364427493]
-script = ExtResource("2_xd4uy")
-
-[node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 86.0
-offset_top = 111.0
-offset_right = 111.0
-offset_bottom = 144.0
-grow_horizontal = 1
-grow_vertical = 1
+[node name="CardUI" parent="Game/Player Hand" unique_id=1299818422 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
 metadata/Power = 1
 
-[node name="CardUI3" parent="Game/NPC Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 115.0
-offset_top = 111.0
-offset_right = 140.0
-offset_bottom = 144.0
-grow_horizontal = 1
-grow_vertical = 1
+[node name="CardUI3" parent="Game/Player Hand" unique_id=1483522550 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
 metadata/Power = 3
-
-[node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=837784691]
-script = ExtResource("2_xd4uy")
-
-[node name="CardUI2" parent="Game/Player Hand" unique_id=1008182838 instance=ExtResource("2_ffvsa")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 101.0
-offset_top = 111.0
-offset_right = 126.0
-offset_bottom = 144.0
-grow_horizontal = 1
-grow_vertical = 1
-metadata/Power = 2

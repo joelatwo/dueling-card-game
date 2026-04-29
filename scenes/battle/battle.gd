@@ -23,7 +23,7 @@ const WIN_SCORE = 3
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("Initializing Game")
-	var root_scene = get_tree().current_scene 
+	var root_scene = get_tree().current_scene
 	player_hand = root_scene.get_node("Game/Player Hand") as Hand
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
 	# Populate hands with fake cards
@@ -133,6 +133,7 @@ func _activate_ability() -> void:
 
 func _recalculate() -> void:
 	print("Recalculating")
+	print("Player and NPC draw 1 card")
 	# For now, no recalculation needed
 	advance(TurnState.CHECK_END_CONDITION)
 
