@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://f4mipsxgwydn" path="res://scenes/card/card_ui.tscn" id="2_ffvsa"]
 [ext_resource type="Script" uid="uid://cvnogr27u7ojt" path="res://scenes/hand/hand.gd" id="2_xd4uy"]
 [ext_resource type="Script" uid="uid://5xhqtkgfsmx" path="res://scenes/battle/battle.gd" id="4_0yh6x"]
+[ext_resource type="PackedScene" uid="uid://c80jkcya1p0kn" path="res://scenes/card_placeholder.tscn" id="5_0xk1m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xd4uy"]
 size = Vector2(256, 80)
@@ -107,3 +108,8 @@ offset_right = 200.0
 offset_bottom = 200.0
 grow_horizontal = 2
 clip_contents = true
+
+[node name="CardPlaceholder1" parent="Game/SkirmishDisplay" instance=ExtResource("5_0xk1m")]
+
+[node name="CardPlaceholder2" parent="Game/SkirmishDisplay" instance=ExtResource("5_0xk1m")]
+

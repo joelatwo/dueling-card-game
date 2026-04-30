@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[node name="CardPlaceholder" type="PanelContainer"]
+custom_minimum_size = Vector2(80, 100)
+
+[node name="Label" type="Label" parent="CardPlaceholder"]
+layout_mode = 0
+text = "NPC
+?"
+horizontal_alignment = 1
+vertical_alignment = 1
