@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://f4mipsxgwydn" path="res://scenes/card/card_ui.tscn" id="2_ffvsa"]
 [ext_resource type="Script" uid="uid://cvnogr27u7ojt" path="res://scenes/hand/hand.gd" id="2_xd4uy"]
 [ext_resource type="Script" uid="uid://5xhqtkgfsmx" path="res://scenes/battle/battle.gd" id="4_0yh6x"]
-[ext_resource type="PackedScene" uid="uid://c80jkcya1p0kn" path="res://scenes/card_placeholder.tscn" id="5_0xk1m"]
+[ext_resource type="PackedScene" uid="uid://2tw2f42hutub" path="res://scenes/card/card_placeholder.tscn" id="5_h0kxc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xd4uy"]
 size = Vector2(256, 80)
@@ -99,17 +99,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SkirmishDisplay" type="VBoxContainer" parent="Game" unique_id=2000000001]
+clip_contents = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
-offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 200.0
+offset_left = -125.0
+offset_top = 30.0
+offset_right = 56.0
+offset_bottom = 110.0
 grow_horizontal = 2
-clip_contents = true
 
-[node name="CardPlaceholder1" parent="Game/SkirmishDisplay" instance=ExtResource("5_0xk1m")]
+[node name="CardDropZone2" parent="Game/SkirmishDisplay" unique_id=537683642 instance=ExtResource("5_h0kxc")]
+layout_mode = 2
 
-[node name="CardPlaceholder2" parent="Game/SkirmishDisplay" instance=ExtResource("5_0xk1m")]
-
+[node name="CardDropZone3" parent="Game/SkirmishDisplay" unique_id=2135403163 instance=ExtResource("5_h0kxc")]
+layout_mode = 2

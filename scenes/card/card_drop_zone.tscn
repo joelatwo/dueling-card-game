@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://card_drop_zone"]
+
+[ext_resource type="Script" path="res://scenes/card/card_drop_zone.gd" id="1_script"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(25, 30)
+
+[node name="CardDropZone" type="Control"]
+custom_minimum_size = Vector2(25, 30)
+layout_mode = 2
+script = ExtResource("1_script")
+
+[node name="Border" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DropZone" type="Area2D" parent="." unique_name_in_owner=true]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DropZone"]
+position = Vector2(12.5, 15)
+shape = SubResource("RectangleShape2D_1")
+
+[connection signal="area_entered" from="DropZone" to="." method="_on_drop_zone_area_entered"]
+[connection signal="area_exited" from="DropZone" to="." method="_on_drop_zone_area_exited"]

@@ -32,15 +32,44 @@ func _ready() -> void:
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	state_label = root_scene.get_node("Game/StateLabel") as Label
-	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as VBoxContainer
+	skirmish_display = root_scene.get_node("Game/SkirmishDisplay")
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 	# Populate hands with fake cards
 	var card_scene = preload("res://scenes/card/card_ui.tscn")
 	for i in 5:
 		var card = card_scene.instantiate()
-		player_hand.add_child(card)
+		# player_hand.add_child(card)
 		var card2 = card_scene.instantiate()
-		npc_hand.add_child(card2)
+		# npc_hand.add_child(card2)
+	
+	# Initialize 3 test skirmishes
+	for i in range(1, 4):
+		var test_skirmish = Skirmish.new()
+		
+		# Create player card
+		var player_card = card_scene.instantiate()
+		player_card.name = "player %d" % i
+		player_card.strength = i * 2
+		add_child(player_card)  # Add to scene tree for initialization
+		test_skirmish.playerCard = player_card
+		
+		# Create NPC card
+		var npc_card = card_scene.instantiate()
+		npc_card.name = "npc %d" % i
+		npc_card.strength = i * 3
+		add_child(npc_card)  # Add to scene tree for initialization
+		test_skirmish.opponentCard = npc_card
+		
+		# Set winner based on strength
+		if player_card.strength > npc_card.strength:
+			test_skirmish.winner = "player"
+		elif npc_card.strength > player_card.strength:
+			test_skirmish.winner = "npc"
+		else:
+			test_skirmish.winner = "tie"
+		
+		skirmishes.append(test_skirmish)
+	
 	advance(TurnState.START_OF_TURN)
 	print("Game started")
 
@@ -55,62 +84,7 @@ func _update_state_label() -> void:
 	state_label.text = TurnState.keys()[state]
 
 func _update_skirmish_display() -> void:
-	# Clear existing display immediately
-	while skirmish_display.get_child_count() > 0:
-		skirmish_display.remove_child(skirmish_display.get_child(0))
-	
-	# Create horizontal container for all skirmishes (left to right)
-	var skirmishes_row = HBoxContainer.new()
-	skirmishes_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	
-	# Create a column for each skirmish
-	for skirmish in skirmishes:
-		var skirmish_column = VBoxContainer.new()
-		skirmish_column.alignment = BoxContainer.ALIGNMENT_CENTER
-		
-		# NPC card placeholder/display (top)
-		var npc_container = PanelContainer.new()
-		npc_container.custom_minimum_size = Vector2(80, 100)
-		var npc_label = Label.new()
-		if skirmish.opponentCard:
-			npc_label.text = "NPC\n%d" % skirmish.opponentCard.strength
-		else:
-			npc_label.text = "NPC\n?"
-		npc_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		npc_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		npc_container.add_child(npc_label)
-		skirmish_column.add_child(npc_container)
-		
-		# Separator
-		var separator = Label.new()
-		separator.text = "vs"
-		separator.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		skirmish_column.add_child(separator)
-		
-		# Player card placeholder/display (bottom)
-		var player_container = PanelContainer.new()
-		player_container.custom_minimum_size = Vector2(80, 100)
-		var player_label = Label.new()
-		if skirmish.playerCard:
-			player_label.text = "Player\n%d" % skirmish.playerCard.strength
-		else:
-			player_label.text = "Player\n?"
-		player_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		player_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		player_container.add_child(player_label)
-		skirmish_column.add_child(player_container)
-		
-		# Winner
-		if skirmish.winner:
-			var winner_label = Label.new()
-			winner_label.text = "[%s]" % skirmish.winner.to_upper()
-			winner_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-			skirmish_column.add_child(winner_label)
-		
-		skirmishes_row.add_child(skirmish_column)
-	
-	skirmish_display.add_child(skirmishes_row)
-	print("Updated skirmish display with %d skirmishes" % skirmishes.size())
+	skirmish_display.update_display(skirmishes)
 
 func _update_button_state() -> void:
 	if state == TurnState.PLAYER_PLAYS_CARD:

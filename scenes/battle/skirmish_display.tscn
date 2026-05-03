@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://skirmish_display"]
+
+[ext_resource type="Script" path="res://scenes/battle/skirmish_display.gd" id="1_skirmish"]
+
+[node name="SkirmishDisplay" type="VBoxContainer"]
+script = ExtResource("1_skirmish")
