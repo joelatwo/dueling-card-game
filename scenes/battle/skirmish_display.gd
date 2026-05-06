@@ -1,40 +1,32 @@
-extends VBoxContainer
+extends Control
 class_name SkirmishDisplay
 
+@onready var NPCList := $NPCList
+@onready var PCList := $PCList
 var skirmishes: Array[Skirmish] = []
 
-func _ready() -> void:
-	pass
+func update_display(new_items: Array) -> void:
+	skirmishes = new_items
+	refresh()
 
-func update_display(skirmishes_to_display: Array[Skirmish]) -> void:
-	skirmishes = skirmishes_to_display
-	
-	# Clear existing display immediately
-	while get_child_count() > 0:
-		remove_child(get_child(0))
-	
-	# Create vertical container for NPC and Player rows
-	var main_container = VBoxContainer.new()
-	main_container.layout_mode = 1  # LAYOUT_MODE_FILL
-	main_container.alignment = BoxContainer.ALIGNMENT_BEGIN
-	
-	# NPC cards row (top)
-	var npc_row = HBoxContainer.new()
-	npc_row.layout_mode = 1  # LAYOUT_MODE_FILL
-	npc_row.alignment = BoxContainer.ALIGNMENT_BEGIN
+func refresh() -> void:
+	# Clear old children
+	for child in NPCList.get_children():
+		child.queue_free()
+
+	# Add new UI elements
 	for skirmish in skirmishes:
-		if skirmish.opponentCard:
-			npc_row.add_child(skirmish.opponentCard)
-	main_container.add_child(npc_row)
-	
-	# Player cards row (bottom)
-	var player_row = HBoxContainer.new()
-	player_row.layout_mode = 1  # LAYOUT_MODE_FILL
-	player_row.alignment = BoxContainer.ALIGNMENT_BEGIN
-	for skirmish in skirmishes:
-		if skirmish.playerCard:
-			player_row.add_child(skirmish.playerCard)
-	main_container.add_child(player_row)
-	
-	add_child(main_container)
-	print("Updated skirmish display with %d skirmishes" % skirmishes.size())
+		if(skirmish.opponentCard != null):
+			var npc_card := skirmish.opponentCard
+			NPCList.add_child(npc_card)
+		else:
+			var placeholder := Label.new()
+			placeholder.text = "No NPC Card"
+			NPCList.add_child(placeholder)
+		if(skirmish.playerCard != null):
+			var player_card := skirmish.playerCard
+			PCList.add_child(player_card)
+		else:
+			var placeholder := Label.new()
+			placeholder.text = "No Player Card"
+			PCList.add_child(placeholder)

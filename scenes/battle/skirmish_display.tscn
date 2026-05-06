@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://skirmish_display"]
+[gd_scene format=3 uid="uid://dni5skxfq5h5q"]
 
-[ext_resource type="Script" path="res://scenes/battle/skirmish_display.gd" id="1_skirmish"]
+[ext_resource type="Script" uid="uid://b4k2fpwcpv1dq" path="res://scenes/battle/skirmish_display.gd" id="1_skirmish"]
 
-[node name="SkirmishDisplay" type="VBoxContainer"]
+[node name="SkirmishDisplay" type="Control" unique_id=1100334446]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -83.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_skirmish")
+
+[node name="NPCList" type="HBoxContainer" parent="." unique_id=761853846]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 30.0
+grow_horizontal = 2
+
+[node name="PCList" type="HBoxContainer" parent="." unique_id=1466030721]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 0.5
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2

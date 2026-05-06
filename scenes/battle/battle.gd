@@ -18,9 +18,9 @@ var npc_score: int = 0
 var current_skirmish: Skirmish
 var player_hand: Hand
 var npc_hand: Hand
+var skirmish_display: SkirmishDisplay
 var play_cards_button: Button
 var state_label: Label
-var skirmish_display: VBoxContainer
 var player_card_selected: bool = false
 const WIN_SCORE = 3
 
@@ -32,43 +32,43 @@ func _ready() -> void:
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	state_label = root_scene.get_node("Game/StateLabel") as Label
-	skirmish_display = root_scene.get_node("Game/SkirmishDisplay")
+	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as SkirmishDisplay
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 	# Populate hands with fake cards
 	var card_scene = preload("res://scenes/card/card_ui.tscn")
-	for i in 5:
-		var card = card_scene.instantiate()
+	#for i in 5:
+		# var card = card_scene.instantiate()
 		# player_hand.add_child(card)
-		var card2 = card_scene.instantiate()
+		# var card2 = card_scene.instantiate()
 		# npc_hand.add_child(card2)
 	
 	# Initialize 3 test skirmishes
-	for i in range(1, 4):
-		var test_skirmish = Skirmish.new()
+	# for i in range(1, 4):
+		# var test_skirmish = Skirmish.new()
 		
 		# Create player card
-		var player_card = card_scene.instantiate()
-		player_card.name = "player %d" % i
-		player_card.strength = i * 2
-		add_child(player_card)  # Add to scene tree for initialization
-		test_skirmish.playerCard = player_card
+		# var player_card = card_scene.instantiate()
+		# player_card.name = "player %d" % i
+		# player_card.strength = i * 2
+		# add_child(player_card)  # Add to scene tree for initialization
+		# test_skirmish.playerCard = player_card
 		
 		# Create NPC card
-		var npc_card = card_scene.instantiate()
-		npc_card.name = "npc %d" % i
-		npc_card.strength = i * 3
-		add_child(npc_card)  # Add to scene tree for initialization
-		test_skirmish.opponentCard = npc_card
+		# var npc_card = card_scene.instantiate()
+		# npc_card.name = "npc %d" % i
+		# npc_card.strength = i * 3
+		# add_child(npc_card)  # Add to scene tree for initialization
+		# test_skirmish.opponentCard = npc_card
 		
 		# Set winner based on strength
-		if player_card.strength > npc_card.strength:
-			test_skirmish.winner = "player"
-		elif npc_card.strength > player_card.strength:
-			test_skirmish.winner = "npc"
-		else:
-			test_skirmish.winner = "tie"
+		# if player_card.strength > npc_card.strength:
+			# test_skirmish.winner = "player"
+		# elif npc_card.strength > player_card.strength:
+			# test_skirmish.winner = "npc"
+		# else:
+			# test_skirmish.winner = "tie"
 		
-		skirmishes.append(test_skirmish)
+		# skirmishes.append(test_skirmish)
 	
 	advance(TurnState.START_OF_TURN)
 	print("Game started")
@@ -76,8 +76,6 @@ func _ready() -> void:
 func advance(next_state: TurnState) -> void:
 	state = next_state
 	_update_state_label()
-	_update_skirmish_display()
-	_update_button_state()
 	_process_state()
 
 func _update_state_label() -> void:
@@ -137,6 +135,7 @@ func _start_of_turn() -> void:
 	current_skirmish = Skirmish.new()
 	skirmishes.append(current_skirmish)
 	print("Moving to player card selection...")
+	skirmish_display.update_display(skirmishes)
 	advance(TurnState.PLAYER_PLAYS_CARD)
 
 func _player_plays_card() -> void:
