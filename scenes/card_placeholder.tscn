@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://jb61h8vfengv"]
+
+[node name="CardPlaceholder" type="PanelContainer" unique_id=2038102504]
+custom_minimum_size = Vector2(80, 100)
+
+[node name="CardPlaceholder#Label" type="Label" parent="." unique_id=1358043038]
+layout_mode = 2
+text = "NPC
+?"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -93,11 +93,8 @@ func _update_button_state() -> void:
 
 func _on_play_cards_button_pressed() -> void:
 	if state == TurnState.PLAYER_PLAYS_CARD:
-		if player_hand.get_child_count() > 0:
-			var card = player_hand.get_child(0)
-			player_hand.remove_child(card)
-			current_skirmish.playerCard = card
-			print("Player locked in card: ", card.name)
+		if current_skirmish.playerCard != null:
+			print("Player locked in card: ", current_skirmish.playerCard.name)
 			advance(TurnState.NPC_PLAYS_CARD)
 		else:
 			print("Player has no cards, NPC wins")
@@ -135,6 +132,10 @@ func _start_of_turn() -> void:
 	current_skirmish = Skirmish.new()
 	skirmishes.append(current_skirmish)
 	print("Moving to player card selection...")
+	var card = player_hand.get_child(0)
+	player_hand.remove_child(card)
+	current_skirmish.playerCard = card
+
 	skirmish_display.update_display(skirmishes)
 	advance(TurnState.PLAYER_PLAYS_CARD)
 
@@ -149,6 +150,7 @@ func _npc_plays_card() -> void:
 		var card = npc_hand.get_child(0)
 		npc_hand.remove_child(card)
 		current_skirmish.opponentCard = card
+		skirmish_display.update_display(skirmishes)
 		print("Waiting to compare cards...")
 		# TODO: Automatically advance to COMPARE_CARDS when ready
 		# advance(TurnState.COMPARE_CARDS)
