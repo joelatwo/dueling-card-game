@@ -3,6 +3,10 @@ class_name SkirmishDisplay
 
 @onready var NPCList := $NPCList
 @onready var PCList := $PCList
+
+const NPC_CARD_PLACEHOLDER_SCENE: PackedScene = preload("res://scenes/npc_card_placeholder.tscn")
+const PC_CARD_PLACEHOLDER_SCENE: PackedScene = preload("res://scenes/pc_card_placeholder.tscn")
+
 var skirmishes: Array[Skirmish] = []
 
 func update_display(new_items: Array) -> void:
@@ -16,17 +20,17 @@ func refresh() -> void:
 
 	# Add new UI elements
 	for skirmish in skirmishes:
-		if(skirmish.opponentCard != null):
+		if (skirmish.opponentCard != null):
 			var npc_card := skirmish.opponentCard
+			print("Adding NPC card: ", npc_card.name)
 			NPCList.add_child(npc_card)
 		else:
-			var placeholder := Label.new()
-			placeholder.text = "No NPC Card"
+			print("Adding NPC placeholder")
+			var placeholder := NPC_CARD_PLACEHOLDER_SCENE.instantiate()
 			NPCList.add_child(placeholder)
-		if(skirmish.playerCard != null):
+		if (skirmish.playerCard != null):
 			var player_card := skirmish.playerCard
 			PCList.add_child(player_card)
 		else:
-			var placeholder := Label.new()
-			placeholder.text = "No Player Card"
+			var placeholder := PC_CARD_PLACEHOLDER_SCENE.instantiate()
 			PCList.add_child(placeholder)
