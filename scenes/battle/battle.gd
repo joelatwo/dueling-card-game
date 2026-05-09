@@ -11,6 +11,8 @@ enum TurnState {
 	CHECK_END_CONDITION
 }
 
+const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
+
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
 var player_score: int = 0
@@ -153,7 +155,7 @@ func _npc_plays_card() -> void:
 		skirmish_display.update_display(skirmishes)
 		print("Waiting to compare cards...")
 		# TODO: Automatically advance to COMPARE_CARDS when ready
-		# advance(TurnState.COMPARE_CARDS)
+		advance(TurnState.COMPARE_CARDS)
 	else:
 		print("NPC has no cards, Player wins")
 		player_score = WIN_SCORE
@@ -161,15 +163,21 @@ func _npc_plays_card() -> void:
 
 func _compare_cards() -> void:
 	print("Comparing cards")
-	var p_strength = current_skirmish.playerCard.strength
-	var n_strength = current_skirmish.opponentCard.strength
+	print(current_skirmish)
+	var p_strength = current_skirmish.playerCard.power
+	var n_strength = current_skirmish.opponentCard.power
 	print("Player card strength: ", p_strength, " NPC card strength: ", n_strength)
+	
+	var winner = null
 	if p_strength > n_strength:
-		current_skirmish.winner = "player"
+		winner = current_skirmish.playerCard
 	elif n_strength > p_strength:
-		current_skirmish.winner = "npc"
-	else:
-		current_skirmish.winner = "tie"
+		winner = current_skirmish.opponentCard
+
+	if winner != null:
+		var newPoint = AwardedPoint.instantiate()
+		winner.add_child(newPoint)
+
 	print("Waiting to award point...")
 	# TODO: Automatically advance to AWARD_POINT when ready
 	# advance(TurnState.AWARD_POINT)

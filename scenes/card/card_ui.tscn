@@ -87,9 +87,16 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Effect" type="Label" parent="." unique_id=397292825]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.704
+anchor_right = 1.0
+anchor_bottom = 1.004
+grow_horizontal = 2
+grow_vertical = 0
+text = "Discard this card and the opossing card"
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="Name" type="Label" parent="." unique_id=593111762]
 layout_mode = 1
@@ -104,10 +111,10 @@ text = "Fortune Teller"
 
 [node name="Power" type="Label" parent="." unique_id=1813258765]
 layout_mode = 1
-offset_left = 1.0
-offset_top = 31.0
-offset_right = 17.0
-offset_bottom = 65.0
+offset_left = 183.0
+offset_top = 113.0
+offset_right = 199.0
+offset_bottom = 147.0
 theme_override_font_sizes/font_size = 24
 text = "1"
 
