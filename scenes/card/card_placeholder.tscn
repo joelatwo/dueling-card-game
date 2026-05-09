@@ -3,12 +3,15 @@
 [ext_resource type="Script" uid="uid://b0k3f8vkoe2uv" path="res://scenes/card/card_drop_zone.gd" id="1_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
-size = Vector2(25, 30)
+size = Vector2(200.5, 249)
 
 [node name="CardDropZone2" type="Control" unique_id=537683642]
-custom_minimum_size = Vector2(25, 30)
+custom_minimum_size = Vector2(200, 250)
 layout_mode = 3
 anchors_preset = 0
+offset_top = -1.0
+offset_right = 200.0
+offset_bottom = 249.0
 script = ExtResource("1_script")
 
 [node name="Border" type="PanelContainer" parent="." unique_id=1781673608]
@@ -21,7 +24,7 @@ grow_vertical = 2
 [node name="DropZone" type="Area2D" parent="." unique_id=2134403238]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropZone" unique_id=1493520325]
-position = Vector2(12.5, 15)
+position = Vector2(101, 125)
 shape = SubResource("RectangleShape2D_1")
 
 [connection signal="area_entered" from="DropZone" to="." method="_on_drop_zone_area_entered"]
