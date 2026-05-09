@@ -26,6 +26,10 @@ window/stretch/mode="viewport"
 
 project/assembly_name="Dueling Card Game"
 
+[gui]
+
+theme/custom_font="uid://qi6fygdt3lhw"
+
 [input]
 
 left_mouse={

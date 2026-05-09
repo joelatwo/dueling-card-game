@@ -41,9 +41,11 @@ alignment = 1
 script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
 metadata/Power = 1
 
 [node name="CardUI3" parent="Game/NPC Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
 metadata/Power = 3
 
 [node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=1868080579]
@@ -62,9 +64,11 @@ alignment = 1
 script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/Player Hand" unique_id=1299818422 instance=ExtResource("2_ffvsa")]
-metadata/Power = 1
+layout_mode = 2
+metadata/Name = ""
 
 [node name="CardUI3" parent="Game/Player Hand" unique_id=1483522550 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
 metadata/Power = 3
 
 [node name="PlayCardsButton" type="Button" parent="Game" unique_id=1999999999]

@@ -6,15 +6,16 @@ signal reparent_requested(which_card_ui: CardUI)
 @onready var color: ColorRect = $Color
 @onready var state: Label = $State
 @onready var card_state_machine: CardStateMachine = $CardStateMachine as CardStateMachine
+@onready var power_label: Label = $Power
 @onready var drop_point_detector: Area2D = $DropPointDetector
 @onready var targets: Array[Node] = []
-
-@export var strength: int = 1
+@onready var power: int = self.get("metadata/Power")
 
 func activate_ability():
 	print("Ability of ", name, " activated")
 
 func _ready() -> void:
+	power_label.text = str(power)
 	card_state_machine.init(self)
 
 func _input(event: InputEvent) -> void:
