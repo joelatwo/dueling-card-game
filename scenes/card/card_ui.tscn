@@ -9,12 +9,12 @@
 [ext_resource type="Script" uid="uid://clw121ddpf6v2" path="res://scenes/card/card_states/card_released_state.gd" id="7_hnt4k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_472ju"]
-size = Vector2(25, 30)
+size = Vector2(248, 301)
 
 [sub_resource type="Theme" id="Theme_hnt4k"]
 
 [node name="CardUI" type="Control" unique_id=561502986]
-custom_minimum_size = Vector2(25, 30)
+custom_minimum_size = Vector2(250, 300)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_0hxw5")
@@ -44,7 +44,7 @@ vertical_alignment = 1
 [node name="DropPointDetector" type="Area2D" parent="." unique_id=443549441]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetector" unique_id=443549442]
-position = Vector2(12.5, 15)
+position = Vector2(124, 150.5)
 shape = SubResource("RectangleShape2D_472ju")
 
 [node name="CardStateMachine" type="Node" parent="." unique_id=235059295 node_paths=PackedStringArray("initial_state")]
@@ -86,27 +86,30 @@ text = "State"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Power" type="Label" parent="." unique_id=1813258765]
-layout_mode = 1
-offset_left = 23.0
-offset_right = 33.0
-offset_bottom = 23.0
-scale = Vector2(0.2, 0.2)
-text = "1"
-
 [node name="Effect" type="Label" parent="." unique_id=397292825]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="Name" type="Label" parent="." unique_id=593111762]
-layout_mode = 0
-offset_top = -5.0
-offset_right = 133.0
-offset_bottom = 18.0
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 27.0
+grow_horizontal = 2
 theme = SubResource("Theme_hnt4k")
-theme_override_font_sizes/font_size = 16
+theme_type_variation = &"HeaderLarge"
+theme_override_font_sizes/font_size = 24
 text = "Fortune Teller"
+
+[node name="Power" type="Label" parent="." unique_id=1813258765]
+layout_mode = 1
+offset_left = 235.0
+offset_top = 1.0
+offset_right = 249.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 24
+text = "1"
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
