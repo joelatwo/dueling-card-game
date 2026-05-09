@@ -9,12 +9,12 @@
 [ext_resource type="Script" uid="uid://clw121ddpf6v2" path="res://scenes/card/card_states/card_released_state.gd" id="7_hnt4k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_472ju"]
-size = Vector2(248, 301)
+size = Vector2(200, 249)
 
 [sub_resource type="Theme" id="Theme_hnt4k"]
 
 [node name="CardUI" type="Control" unique_id=561502986]
-custom_minimum_size = Vector2(250, 300)
+custom_minimum_size = Vector2(200, 250)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_0hxw5")
@@ -44,7 +44,7 @@ vertical_alignment = 1
 [node name="DropPointDetector" type="Area2D" parent="." unique_id=443549441]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetector" unique_id=443549442]
-position = Vector2(124, 150.5)
+position = Vector2(100, 124.5)
 shape = SubResource("RectangleShape2D_472ju")
 
 [node name="CardStateMachine" type="Node" parent="." unique_id=235059295 node_paths=PackedStringArray("initial_state")]
@@ -104,10 +104,10 @@ text = "Fortune Teller"
 
 [node name="Power" type="Label" parent="." unique_id=1813258765]
 layout_mode = 1
-offset_left = 235.0
-offset_top = 1.0
-offset_right = 249.0
-offset_bottom = 35.0
+offset_left = 1.0
+offset_top = 31.0
+offset_right = 17.0
+offset_bottom = 65.0
 theme_override_font_sizes/font_size = 24
 text = "1"
 
