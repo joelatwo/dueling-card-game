@@ -2,11 +2,13 @@ class_name CardUI
 extends Control
 
 signal reparent_requested(which_card_ui: CardUI)
+const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 
 @onready var color: ColorRect = $Color
 @onready var state: Label = $State
 @onready var card_state_machine: CardStateMachine = $CardStateMachine as CardStateMachine
 @onready var power_label: Label = $Power
+@onready var PointsAwardedArea: BoxContainer = $PointsAwardedArea
 @onready var drop_point_detector: Area2D = $DropPointDetector
 @onready var targets: Array[Node] = []
 @onready var power: int = self.get("metadata/Power")
@@ -16,7 +18,7 @@ func activate_ability():
 
 func _ready() -> void:
 	power_label.text = str(power)
-	card_state_machine.init(self)
+	card_state_machine.init(self )
 
 func _input(event: InputEvent) -> void:
 	card_state_machine.on_input(event)
@@ -38,3 +40,8 @@ func _on_drop_point_detector_area_entered(area: Area2D) -> void:
 
 func _on_drop_point_detector_area_exited(area: Area2D) -> void:
 	targets.erase(area)
+
+func award_point() -> void:
+	var newPoint = AwardedPoint.instantiate()
+	PointsAwardedArea.add_child(newPoint)
+	PointsAwardedArea.add_child(newPoint)

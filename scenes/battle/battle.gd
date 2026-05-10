@@ -168,15 +168,10 @@ func _compare_cards() -> void:
 	var n_strength = current_skirmish.opponentCard.power
 	print("Player card strength: ", p_strength, " NPC card strength: ", n_strength)
 	
-	var winner = null
 	if p_strength > n_strength:
-		winner = current_skirmish.playerCard
+		current_skirmish.playerCard.award_point()
 	elif n_strength > p_strength:
-		winner = current_skirmish.opponentCard
-
-	if winner != null:
-		var newPoint = AwardedPoint.instantiate()
-		winner.add_child(newPoint)
+		current_skirmish.opponentCard.award_point()
 
 	print("Waiting to award point...")
 	# TODO: Automatically advance to AWARD_POINT when ready
