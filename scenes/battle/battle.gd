@@ -170,8 +170,10 @@ func _compare_cards() -> void:
 	
 	if p_strength > n_strength:
 		current_skirmish.playerCard.award_point()
+		current_skirmish.opponentCard.activate_ability()
 	elif n_strength > p_strength:
 		current_skirmish.opponentCard.award_point()
+		current_skirmish.playerCard.activate_ability()
 
 	print("Waiting to award point...")
 	# TODO: Automatically advance to AWARD_POINT when ready

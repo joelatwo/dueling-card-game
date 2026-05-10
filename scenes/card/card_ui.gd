@@ -44,4 +44,3 @@ func _on_drop_point_detector_area_exited(area: Area2D) -> void:
 func award_point() -> void:
 	var newPoint = AwardedPoint.instantiate()
 	PointsAwardedArea.add_child(newPoint)
-	PointsAwardedArea.add_child(newPoint)
