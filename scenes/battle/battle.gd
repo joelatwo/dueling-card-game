@@ -11,6 +11,8 @@ enum TurnState {
 	CHECK_END_CONDITION
 }
 
+const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
+
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
 var player_score: int = 0
