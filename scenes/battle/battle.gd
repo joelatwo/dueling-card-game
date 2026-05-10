@@ -5,8 +5,7 @@ enum TurnState {
 	PLAYER_PLAYS_CARD,
 	NPC_PLAYS_CARD,
 	COMPARE_CARDS,
-	AWARD_POINT,
-	ACTIVATE_ABILITY,
+	CONFIRM_ACTIVATE_ABILITY,
 	RECALCULATE,
 	CHECK_END_CONDITION
 }
@@ -17,7 +16,6 @@ var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
 var player_score: int = 0
 var npc_score: int = 0
-var current_skirmish: Skirmish
 var player_hand: Hand
 var npc_hand: Hand
 var skirmish_display: SkirmishDisplay
@@ -95,8 +93,8 @@ func _update_button_state() -> void:
 
 func _on_play_cards_button_pressed() -> void:
 	if state == TurnState.PLAYER_PLAYS_CARD:
-		if current_skirmish.playerCard != null:
-			print("Player locked in card: ", current_skirmish.playerCard.name)
+		if skirmishes.back().playerCard != null:
+			print("Player locked in card: ", skirmishes.back().playerCard.name)
 			advance(TurnState.NPC_PLAYS_CARD)
 		else:
 			print("Player has no cards, NPC wins")
@@ -117,11 +115,8 @@ func _process_state() -> void:
 		TurnState.COMPARE_CARDS:
 			_compare_cards()
 			
-		TurnState.AWARD_POINT:
-			_award_point()
-
-		TurnState.ACTIVATE_ABILITY:
-			_activate_ability()
+		TurnState.CONFIRM_ACTIVATE_ABILITY:
+			_confirm_activate_ability()
 			
 		TurnState.RECALCULATE:
 			_recalculate()
@@ -131,12 +126,11 @@ func _process_state() -> void:
 
 func _start_of_turn() -> void:
 	print("Start of turn")
-	current_skirmish = Skirmish.new()
-	skirmishes.append(current_skirmish)
+	skirmishes.append(Skirmish.new())
 	print("Moving to player card selection...")
 	var card = player_hand.get_child(0)
 	player_hand.remove_child(card)
-	current_skirmish.playerCard = card
+	skirmishes.back().playerCard = card
 
 	skirmish_display.update_display(skirmishes)
 	advance(TurnState.PLAYER_PLAYS_CARD)
@@ -151,11 +145,11 @@ func _npc_plays_card() -> void:
 	if npc_hand.get_child_count() > 0:
 		var card = npc_hand.get_child(0)
 		npc_hand.remove_child(card)
-		current_skirmish.opponentCard = card
+		skirmishes.back().opponentCard = card
 		skirmish_display.update_display(skirmishes)
 		print("Waiting to compare cards...")
-		# TODO: Automatically advance to COMPARE_CARDS when ready
-		advance(TurnState.COMPARE_CARDS)
+		if skirmishes.back().playerCard != null && skirmishes.back().opponentCard != null:
+			advance(TurnState.COMPARE_CARDS)
 	else:
 		print("NPC has no cards, Player wins")
 		player_score = WIN_SCORE
@@ -163,28 +157,34 @@ func _npc_plays_card() -> void:
 
 func _compare_cards() -> void:
 	print("Comparing cards")
-	print(current_skirmish)
-	var p_strength = current_skirmish.playerCard.power
-	var n_strength = current_skirmish.opponentCard.power
+	print(skirmishes.back())
+	var p_strength = skirmishes.back().playerCard.power
+	var n_strength = skirmishes.back().opponentCard.power
 	print("Player card strength: ", p_strength, " NPC card strength: ", n_strength)
 	
 	if p_strength > n_strength:
-		current_skirmish.playerCard.award_point()
-		current_skirmish.opponentCard.activate_ability()
+		skirmishes.back().playerCard.award_point()
+		skirmishes.back().opponentCard.activate_ability()
+		advance(TurnState.RECALCULATE)
 	elif n_strength > p_strength:
-		current_skirmish.opponentCard.award_point()
-		current_skirmish.playerCard.activate_ability()
+		skirmishes.back().opponentCard.award_point()
+		skirmishes.back().playerCard.activate_ability()
+		advance(TurnState.CONFIRM_ACTIVATE_ABILITY)
+	else:
+		advance(TurnState.RECALCULATE)
 
-	print("Waiting to award point...")
-	# TODO: Automatically advance to AWARD_POINT when ready
-	# advance(TurnState.AWARD_POINT)
+
+func _confirm_activate_ability() -> void:
+	print("Confirming ability activation")
+	# For now, just automatically activate the ability
+	#advance(TurnState.RECALCULATE)
 
 func _award_point() -> void:
 	print("Awarding point")
-	if current_skirmish.winner == "player":
+	if skirmishes.back().winner == "player":
 		player_score += 1
 		print("Player score: ", player_score)
-	elif current_skirmish.winner == "npc":
+	elif skirmishes.back().winner == "npc":
 		npc_score += 1
 		print("NPC score: ", npc_score)
 	else:
@@ -195,10 +195,10 @@ func _award_point() -> void:
 
 func _activate_ability() -> void:
 	print("Activating ability")
-	if current_skirmish.winner == "player":
-		current_skirmish.opponentCard.activate_ability()
-	elif current_skirmish.winner == "npc":
-		current_skirmish.playerCard.activate_ability()
+	if skirmishes.back().winner == "player":
+		skirmishes.back().opponentCard.activate_ability()
+	elif skirmishes.back().winner == "npc":
+		skirmishes.back().playerCard.activate_ability()
 	else:
 		print("No ability activated due to tie")
 	print("Waiting to recalculate...")
@@ -206,9 +206,34 @@ func _activate_ability() -> void:
 	# advance(TurnState.RECALCULATE)
 
 func _recalculate() -> void:
+	var player_wins = 0
+	var npc_wins = 0
+
 	print("Recalculating")
-	print("Player and NPC draw 1 card")
-	# For now, no recalculation needed
+	for skirmish in skirmishes:
+		if skirmish.playerCard != null and skirmish.opponentCard != null:
+			print(skirmish.playerCard.power, " vs ", skirmish.opponentCard.power)
+		# if skirmish.playerCard.power > skirmish.opponentCard.power:
+		# 	skirmish.playerCard.award_point()
+		# 	skirmish.opponentCard.remove_point()
+		# 	player_wins += 1
+		# elif skirmish.playerCard.power < skirmish.opponentCard.power:
+		# 	skirmish.opponentCard.award_point()
+		# 	skirmish.playerCard.remove_point()
+		# 	npc_wins += 1
+		# else:
+		# 	skirmish.playerCard.remove_point()
+		# 	skirmish.opponentCard.remove_point()
+
+		# if player_score >= WIN_SCORE:
+		# 	print("Player wins the game!")
+		# elif npc_score >= WIN_SCORE:
+		# 	print("NPC wins the game!")
+		# else:
+		# 	print("Continuing to next turn")
+		# 	advance(TurnState.START_OF_TURN)
+
+
 	print("Waiting to check end condition...")
 	# TODO: Automatically advance to CHECK_END_CONDITION when ready
 	# advance(TurnState.CHECK_END_CONDITION)
