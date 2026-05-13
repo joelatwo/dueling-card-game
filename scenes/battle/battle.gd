@@ -165,13 +165,13 @@ func _compare_cards() -> void:
 	if p_strength > n_strength:
 		skirmishes.back().playerCard.award_point()
 		skirmishes.back().opponentCard.activate_ability()
-		advance(TurnState.RECALCULATE)
+		call_deferred("_deffered_enter_recalculate_state")
 	elif n_strength > p_strength:
 		skirmishes.back().opponentCard.award_point()
 		skirmishes.back().playerCard.activate_ability()
 		advance(TurnState.CONFIRM_ACTIVATE_ABILITY)
 	else:
-		advance(TurnState.RECALCULATE)
+		call_deferred("_deffered_enter_recalculate_state")
 
 
 func _confirm_activate_ability() -> void:
@@ -203,7 +203,10 @@ func _activate_ability() -> void:
 		print("No ability activated due to tie")
 	print("Waiting to recalculate...")
 	# TODO: Automatically advance to RECALCULATE when ready
-	# advance(TurnState.RECALCULATE)
+	call_deferred("_deffered_enter_recalculate_state")
+
+func _deffered_enter_recalculate_state() -> void:
+	advance(TurnState.RECALCULATE)
 
 func _recalculate() -> void:
 	var player_wins = 0
@@ -213,30 +216,25 @@ func _recalculate() -> void:
 	for skirmish in skirmishes:
 		if skirmish.playerCard != null and skirmish.opponentCard != null:
 			print(skirmish.playerCard.power, " vs ", skirmish.opponentCard.power)
-		# if skirmish.playerCard.power > skirmish.opponentCard.power:
-		# 	skirmish.playerCard.award_point()
-		# 	skirmish.opponentCard.remove_point()
-		# 	player_wins += 1
-		# elif skirmish.playerCard.power < skirmish.opponentCard.power:
-		# 	skirmish.opponentCard.award_point()
-		# 	skirmish.playerCard.remove_point()
-		# 	npc_wins += 1
-		# else:
-		# 	skirmish.playerCard.remove_point()
-		# 	skirmish.opponentCard.remove_point()
+			if skirmish.playerCard.power > skirmish.opponentCard.power:
+				skirmish.playerCard.award_point()
+				skirmish.opponentCard.remove_point()
+				player_wins += 1
+			elif skirmish.playerCard.power < skirmish.opponentCard.power:
+				skirmish.opponentCard.award_point()
+				skirmish.playerCard.remove_point()
+				npc_wins += 1
+			else:
+				skirmish.playerCard.remove_point()
+				skirmish.opponentCard.remove_point()
 
-		# if player_score >= WIN_SCORE:
-		# 	print("Player wins the game!")
-		# elif npc_score >= WIN_SCORE:
-		# 	print("NPC wins the game!")
-		# else:
-		# 	print("Continuing to next turn")
-		# 	advance(TurnState.START_OF_TURN)
-
-
-	print("Waiting to check end condition...")
-	# TODO: Automatically advance to CHECK_END_CONDITION when ready
-	# advance(TurnState.CHECK_END_CONDITION)
+	if player_score >= WIN_SCORE:
+		print("Player wins the game!")
+	elif npc_score >= WIN_SCORE:
+		print("NPC wins the game!")
+	else:
+		print("Continuing to next turn")
+		advance(TurnState.START_OF_TURN)
 
 func _check_end_condition() -> void:
 	print("Checking end condition")
