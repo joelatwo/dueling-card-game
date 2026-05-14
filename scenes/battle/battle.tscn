@@ -41,11 +41,18 @@ script = ExtResource("2_xd4uy")
 
 [node name="CardUI" parent="Game/NPC Hand" unique_id=561502986 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
-metadata/Power = 1
+metadata/Power = 5
+metadata/name = "Hired Blade"
 
 [node name="CardUI3" parent="Game/NPC Hand" unique_id=982377152 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
-metadata/Power = 3
+metadata/Power = 7
+metadata/name = "Void Mage"
+
+[node name="CardUI4" parent="Game/NPC Hand" unique_id=1725699238 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
+metadata/Power = 4
+metadata/name = "Surgeon"
 
 [node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=1868080579]
 anchors_preset = 12
@@ -58,14 +65,20 @@ grow_vertical = 0
 alignment = 1
 script = ExtResource("2_xd4uy")
 
-[node name="CardUI" parent="Game/Player Hand" unique_id=1299818422 instance=ExtResource("2_ffvsa")]
+[node name="CardUI" parent="Game/Player Hand" unique_id=1028665533 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
-metadata/Power = 5
-metadata/Name = ""
+metadata/Power = 6
+metadata/name = "Hired Blade"
 
-[node name="CardUI3" parent="Game/Player Hand" unique_id=1483522550 instance=ExtResource("2_ffvsa")]
+[node name="CardUI3" parent="Game/Player Hand" unique_id=1875767702 instance=ExtResource("2_ffvsa")]
 layout_mode = 2
-metadata/Power = 3
+metadata/Power = 8
+metadata/name = "Void Mage"
+
+[node name="CardUI4" parent="Game/Player Hand" unique_id=525343848 instance=ExtResource("2_ffvsa")]
+layout_mode = 2
+metadata/Power = 10
+metadata/name = "Surgeon"
 
 [node name="PlayCardsButton" type="Button" parent="Game" unique_id=1999999999]
 anchors_preset = 6
