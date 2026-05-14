@@ -15,8 +15,12 @@ func update_display(new_items: Array) -> void:
 
 func refresh() -> void:
 	# Clear old children
+	
+	print("Count", NPCList.get_child_count(), PCList.get_child_count())
+	for child in PCList.get_children():
+		PCList.remove_child(child)
 	for child in NPCList.get_children():
-		child.queue_free()
+		NPCList.remove_child(child)
 
 	# Add new UI elements
 	for skirmish in skirmishes:
@@ -28,6 +32,7 @@ func refresh() -> void:
 			print("Adding NPC placeholder")
 			var placeholder := NPC_CARD_PLACEHOLDER_SCENE.instantiate()
 			NPCList.add_child(placeholder)
+			
 		if (skirmish.playerCard != null):
 			var player_card := skirmish.playerCard
 			PCList.add_child(player_card)

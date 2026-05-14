@@ -124,6 +124,8 @@ func _start_of_turn() -> void:
 	print("Start of turn")
 	skirmishes.append(Skirmish.new())
 	print("Moving to player card selection...")
+
+	# Temp play left most card. In the future, this will be replaced by player input to select a card.
 	var card = player_hand.get_child(0)
 	player_hand.remove_child(card)
 	skirmishes.back().playerCard = card
@@ -140,12 +142,14 @@ func _npc_plays_card() -> void:
 	print("NPC plays card")
 	if npc_hand.get_child_count() > 0:
 		var card = npc_hand.get_child(0)
-		npc_hand.remove_child(card)
 		skirmishes.back().opponentCard = card
+		npc_hand.remove_child(card)
 		skirmish_display.update_display(skirmishes)
 		print("Waiting to compare cards...")
 		if skirmishes.back().playerCard != null && skirmishes.back().opponentCard != null:
 			advance(TurnState.COMPARE_CARDS)
+		else:
+			print("Error: Missing card for comparison")
 	else:
 		print("NPC has no cards, Player wins")
 		player_score = WIN_SCORE
