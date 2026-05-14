@@ -1,3 +1,37 @@
-# Godot 4+ specific ignores
+# Godot 4+ specific
 .godot/
-/android/
+.nomedia
+
+# Godot import system
+.import/
+export.cfg
+export_credentials.cfg
+*.tmp
+
+# Imported translations
+*.translation
+
+# Mono / C# projects
+.mono/
+data_*/
+mono_crash.*.json
+
+# OS-specific junk
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.nfs*
