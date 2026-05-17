@@ -24,6 +24,8 @@ metadata/Power = 0
 metadata/Ability = ""
 metadata/ImagePath = ""
 metadata/name = ""
+metadata/AbilityText = ""
+metadata/AbilityFunctionList = []
 
 [node name="Color" type="ColorRect" parent="." unique_id=123456789]
 layout_mode = 0

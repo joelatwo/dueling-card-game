@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://b5hhmx55jw5fd"]
+
+[ext_resource type="Script" uid="uid://bu70p17h7vywo" path="res://scenes/deck.gd" id="1_sdhao"]
+[ext_resource type="PackedScene" uid="uid://kp65moknqjh7" path="res://scenes/deck/empty_deck.tscn" id="2_6rnap"]
+
+[node name="Deck" type="Node2D" unique_id=180238213]
+script = ExtResource("1_sdhao")
+
+[node name="EmptyDeckPlaceHolder" parent="." unique_id=1222930126 instance=ExtResource("2_6rnap")]

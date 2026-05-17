@@ -14,15 +14,17 @@ func update_display(new_items: Array) -> void:
 	refresh()
 
 func refresh() -> void:
-	# Clear old children
-	
+	clear_display()
+	add_cards_to_display()
+
+func clear_display() -> void:
 	print("Count", NPCList.get_child_count(), PCList.get_child_count())
 	for child in PCList.get_children():
 		PCList.remove_child(child)
 	for child in NPCList.get_children():
 		NPCList.remove_child(child)
 
-	# Add new UI elements
+func add_cards_to_display() -> void:
 	for skirmish in skirmishes:
 		if (skirmish.opponentCard != null):
 			var npc_card := skirmish.opponentCard

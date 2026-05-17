@@ -9,22 +9,28 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 @onready var card_state_machine: CardStateMachine = $CardStateMachine as CardStateMachine
 @onready var power_label: Label = $Power
 @onready var name_label: Label = $Name
+@onready var ability_text_label: Label = $Ability
 @onready var PointsAwardedArea: BoxContainer = $PointsAwardedArea
 @onready var drop_point_detector: Area2D = $DropPointDetector
 @onready var targets: Array[Node] = []
+@onready var CardAbilityClass: CardAbility = CardAbility.new()
 
 @onready var power: int = self.get_meta("Power")
-@onready var ability = self.get_meta("Ability")
+@onready var ability_text: String = self.get_meta("AbilityText")
 @onready var card_name: String = self.get_meta("name")
 
 
 func activate_ability():
-	print("Ability of ", card_name, " activated")
+	var ability_functions: Array = self.get_meta("AbilityFunctionList")
+	for func_name in ability_functions:
+		CardAbilityClass.call(func_name, self)
+		print("Activated ability function: ", func_name)
 
 func _ready() -> void:
 	print(self.get_meta_list())
 	power_label.text = str(power)
 	name_label.text = str(card_name)
+	ability_text_label.text = str(ability_text)
 	card_state_machine.init(self)
 
 func _input(event: InputEvent) -> void:

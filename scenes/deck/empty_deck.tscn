@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://kp65moknqjh7"]
+
+[ext_resource type="Script" path="res://scenes/pc_card_placeholder.gd" id="1_ej6e6"]
+
+[node name="EmptyDeckPlaceHolder" type="PanelContainer" unique_id=1222930126]
+custom_minimum_size = Vector2(250, 300)
+offset_right = 80.0
+offset_bottom = 100.0
+script = ExtResource("1_ej6e6")
+
+[node name="Label" type="Label" parent="." unique_id=810062440]
+layout_mode = 2
+text = "Out of Cards"
+horizontal_alignment = 1
