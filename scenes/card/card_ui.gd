@@ -15,12 +15,14 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 @onready var targets: Array[Node] = []
 @onready var CardAbilityClass: CardAbility = CardAbility.new()
 
-@onready var power: int = 0
+var power: int = 0
 var ability_text: String = ""
 var card_name: String = ""
 
 func setup(props):
+	# { "power": 5.0, "abilityText": "Deal 2 damage to opponent", "name": "Fireball"}
 	power = props.get("power", 0)
+	print("printing power: ", props.get("power"), " vs ", power)
 	ability_text = props.get("abilityText", "")
 	card_name = props.get("name", "")
 	print(props, "Initialized card with name: ", card_name, " power: ", power, " ability text: ", ability_text)
@@ -35,9 +37,8 @@ func activate_ability():
 		print("Activated ability function: ", func_name)
 
 func _ready() -> void:
-	power_label.text = str(power)
-	name_label.text = str(card_name)
-	ability_text_label.text = str(ability_text)
+	call_deferred("update_display")
+	# update_display()
 	# print(self.get_meta_list())
 
 func _input(event: InputEvent) -> void:
