@@ -15,10 +15,21 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 @onready var targets: Array[Node] = []
 @onready var CardAbilityClass: CardAbility = CardAbility.new()
 
-@onready var power: int = self.get_meta("Power")
-@onready var ability_text: String = self.get_meta("AbilityText")
-@onready var card_name: String = self.get_meta("name")
+@onready var power: int = 0
+var ability_text: String = ""
+var card_name: String = ""
 
+func _init(props):
+	power = props.get("Power", 0)
+	ability_text = props.get("AbilityText", "")
+	card_name = props.get("name", "")
+	print("Initialized card with name: ", card_name, " power: ", power, " ability text: ", ability_text)
+	update_display()
+	# power_label.text = str(power)
+	# name_label.text = str(card_name)
+	# ability_text_label.text = str(ability_text)
+	# card_state_machine.init(self)
+	
 
 func activate_ability():
 	var ability_functions: Array = self.get_meta("AbilityFunctionList")
@@ -26,12 +37,8 @@ func activate_ability():
 		CardAbilityClass.call(func_name, self)
 		print("Activated ability function: ", func_name)
 
-func _ready() -> void:
-	print(self.get_meta_list())
-	power_label.text = str(power)
-	name_label.text = str(card_name)
-	ability_text_label.text = str(ability_text)
-	card_state_machine.init(self)
+# func _ready() -> void:
+	# print(self.get_meta_list())
 
 func _input(event: InputEvent) -> void:
 	card_state_machine.on_input(event)
@@ -61,3 +68,8 @@ func award_point() -> void:
 func remove_point() -> void:
 	if PointsAwardedArea.get_child_count() > 0:
 		PointsAwardedArea.get_child(PointsAwardedArea.get_child_count() - 1).queue_free()
+
+func update_display() -> void:
+	power_label.text = str(power)
+	name_label.text = card_name
+	ability_text_label.text = str(ability_text)

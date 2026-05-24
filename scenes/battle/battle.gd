@@ -11,13 +11,17 @@ enum TurnState {
 }
 
 const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
+const DeckLoader = preload("res://scenes/deck/deck_loader.gd")
 
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
+
 var player_score: int = 0
 var npc_score: int = 0
 var player_hand: Hand
+var player_deck: Deck
 var npc_hand: Hand
+var npc_deck: Deck
 var skirmish_display: SkirmishDisplay
 var play_cards_button: Button
 var state_label: Label
@@ -28,16 +32,24 @@ const WIN_SCORE = 3
 func _ready() -> void:
 	print("Initializing Game")
 	var root_scene = get_tree().current_scene
-	player_hand = root_scene.get_node("Game/Player Hand") as Hand
-	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
-	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	state_label = root_scene.get_node("Game/StateLabel") as Label
-	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as SkirmishDisplay
+	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
+
+	player_deck = _load_deck(("res://scenes/deck/deck.json"))
+	player_hand = root_scene.get_node("Game/Player Hand") as Hand
+
+	npc_deck = _load_deck(("res://scenes/deck/deck.json"))
+	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
+
+	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as SkirmishDisplay
+	
+	player_hand.cardList = player_deck.draw(5)
+	npc_hand.cardList = npc_deck.draw(5)
+	print("Player deck initialized with ", player_hand.cardList[0].power, " cards.")
 	# Populate hands with fake cards
-	var card_scene = preload("res://scenes/card/card_ui.tscn")
-
-
+	# var card_scene = preload("res://scenes/card/card_ui.tscn")
+	
 	
 	# Initialize 3 test skirmishes
 	# for i in range(1, 4):
@@ -66,7 +78,7 @@ func _ready() -> void:
 			# test_skirmish.winner = "tie"
 	# skirmish_display.update_display(skirmishes)
 	
-	advance(TurnState.START_OF_TURN)
+	call_deferred("advance", TurnState.START_OF_TURN)
 	print("Game started")
 
 func advance(next_state: TurnState) -> void:
@@ -98,6 +110,7 @@ func _on_play_cards_button_pressed() -> void:
 			advance(TurnState.CHECK_END_CONDITION)
 	
 func _process_state() -> void:
+	update_display()
 	match state:
 		TurnState.START_OF_TURN:
 			_start_of_turn()
@@ -245,3 +258,16 @@ func _check_end_condition() -> void:
 	else:
 		print("Continuing to next turn")
 		advance(TurnState.START_OF_TURN)
+
+func _load_deck(path: String) -> Deck:
+	var cardDataArray = DeckLoader.initialize_deck(path)
+	var new_deck = Deck.new()
+	for cardData in cardDataArray:
+		var card = CardUI.new(cardData)
+		new_deck.cardList.append(card)
+	return new_deck
+
+func update_display() -> void:
+	player_hand.update_display()
+	npc_hand.update_display()
+	skirmish_display.update_display(skirmishes)

@@ -1,0 +1,86 @@
+{
+    "cards": [
+        {
+            "power": 1,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Hired Blade",
+            "abilityText": "*Discard both this card and the opposing card",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 2,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Void Mage",
+            "abilityText": "*Remove all modifiers or all ongoing tokens from any one card.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 3,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Surgeon",
+            "abilityText": "*Add -5 power to the next card you play.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 4,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Mediator",
+            "abilityText": "*This encounter is a tie.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 5,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Saboteur",
+            "abilityText": "*Your opponent discards the top 2 cards of their deck.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 6,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Fortune Teller",
+            "abilityText": "*In the next encounter, your opponent plays their card face up before you play your card.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 7,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Palace Guard",
+            "abilityText": "*Choose a color. Your opponent may discard a card of the chosen color from their hand. If they do not, add +7 power to this card.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 8,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Judge",
+            "abilityText": "You win all ties.",
+            "abilityFuncitonList": []
+        },
+        {
+            "power": 9,
+            "ability": "*",
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Ambusher",
+            "abilityText": "Increase my power by 1.",
+            "abilityFuncitonList": [
+                "increaseMyPower"
+            ]
+        },
+        {
+            "power": 10,
+            "ability": "*", 
+            "imagePath": "res://assets/card_images/card1.png",
+            "name": "Puppeteer",
+            "abilityText": "*You're opponent discards their hand.",
+            "abilityFuncitonList": []
+        }
+    ]
+}

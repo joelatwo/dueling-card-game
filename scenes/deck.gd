@@ -24,3 +24,11 @@ func refresh() -> void:
 	else:
 		var emptyDeck = EMPTY_DECK_SCENE.instantiate()
 		add_child(emptyDeck)
+
+func draw(numberOfCards: int) -> Array[CardUI]:
+	var drawnCards: Array[CardUI] = []
+	for i in range(numberOfCards):
+		if cardList.size() > 0:
+			var drawnCard = cardList.pop_back()
+			drawnCards.append(drawnCard)
+	return drawnCards
