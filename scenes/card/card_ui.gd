@@ -19,15 +19,12 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 var ability_text: String = ""
 var card_name: String = ""
 
-func _init(props):
-	power = props.get("Power", 0)
-	ability_text = props.get("AbilityText", "")
+func setup(props):
+	power = props.get("power", 0)
+	ability_text = props.get("abilityText", "")
 	card_name = props.get("name", "")
-	print("Initialized card with name: ", card_name, " power: ", power, " ability text: ", ability_text)
-	update_display()
-	# power_label.text = str(power)
-	# name_label.text = str(card_name)
-	# ability_text_label.text = str(ability_text)
+	print(props, "Initialized card with name: ", card_name, " power: ", power, " ability text: ", ability_text)
+	# update_display()
 	# card_state_machine.init(self)
 	
 
@@ -37,7 +34,10 @@ func activate_ability():
 		CardAbilityClass.call(func_name, self)
 		print("Activated ability function: ", func_name)
 
-# func _ready() -> void:
+func _ready() -> void:
+	power_label.text = str(power)
+	name_label.text = str(card_name)
+	ability_text_label.text = str(ability_text)
 	# print(self.get_meta_list())
 
 func _input(event: InputEvent) -> void:
@@ -70,6 +70,7 @@ func remove_point() -> void:
 		PointsAwardedArea.get_child(PointsAwardedArea.get_child_count() - 1).queue_free()
 
 func update_display() -> void:
+	print("Updating display for card: ", power, card_name, ability_text)
 	power_label.text = str(power)
 	name_label.text = card_name
 	ability_text_label.text = str(ability_text)

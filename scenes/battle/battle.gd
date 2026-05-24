@@ -12,6 +12,7 @@ enum TurnState {
 
 const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 const DeckLoader = preload("res://scenes/deck/deck_loader.gd")
+const CARD_SCENE: PackedScene = preload("res://scenes/card/card_ui.tscn")
 
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
@@ -263,7 +264,8 @@ func _load_deck(path: String) -> Deck:
 	var cardDataArray = DeckLoader.initialize_deck(path)
 	var new_deck = Deck.new()
 	for cardData in cardDataArray:
-		var card = CardUI.new(cardData)
+		var card = CARD_SCENE.instantiate()
+		card.setup(cardData)
 		new_deck.cardList.append(card)
 	return new_deck
 
