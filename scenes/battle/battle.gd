@@ -48,36 +48,6 @@ func _ready() -> void:
 	player_hand.cardList = player_deck.draw(5)
 	npc_hand.cardList = npc_deck.draw(5)
 	print("Player deck initialized with ", player_hand.cardList[0].power, " cards.")
-	# Populate hands with fake cards
-	# var card_scene = preload("res://scenes/card/card_ui.tscn")
-	
-	
-	# Initialize 3 test skirmishes
-	# for i in range(1, 4):
-		# var test_skirmish = Skirmish.new()
-		
-		# # Create player card
-		# var player_card = card_scene.instantiate()
-		# player_card.card_name = "player %d" % i
-		# player_card.power = i * 2
-  
-		# test_skirmish.playerCard = player_card
-		
-		# Create NPC card
-		# var npc_card = CardUI.new( i * 3,null, "npc %d" % i)
-		# npc_card.card_name = "npc %d" % i
-		# npc_card.power = i * 3
-		# test_skirmish.opponentCard = npc_card
-		# skirmishes.append(test_skirmish)
-		
-		# Set winner based on strength
-		# if player_card.strength > npc_card.strength:
-			# test_skirmish.winner = "player"
-		# elif npc_card.strength > player_card.strength:
-			# test_skirmish.winner = "npc"
-		# else:
-			# test_skirmish.winner = "tie"
-	# skirmish_display.update_display(skirmishes)
 	
 	call_deferred("advance", TurnState.START_OF_TURN)
 	print("Game started")
