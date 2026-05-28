@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dni5skxfq5h5q" path="res://scenes/battle/skirmish_display.tscn" id="7_skirmish_dsp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xd4uy"]
-size = Vector2(256, 80)
+size = Vector2(1665, 829)
 
 [node name="Battle" type="Node2D" unique_id=1134976482]
 
@@ -22,7 +22,7 @@ centered = false
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CardDropArea" unique_id=81191035]
-position = Vector2(128, 70)
+position = Vector2(835.5, 411.5)
 shape = SubResource("RectangleShape2D_xd4uy")
 
 [node name="BattleUI" type="CanvasLayer" parent="." unique_id=253945018 groups=["ui_layer"]]
