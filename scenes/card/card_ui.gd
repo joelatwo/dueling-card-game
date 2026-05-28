@@ -56,13 +56,13 @@ func _on_mouse_entered() -> void:
 func _on_mouse_exited() -> void:
 	card_state_machine.on_mouse_exited()
 
-
 func _on_drop_point_detector_area_entered(area: Area2D) -> void:
 	if not targets.has(area):
+		print("Card ", card_name, " entered drop point: ", area.name)
 		targets.append(area)
 
-
 func _on_drop_point_detector_area_exited(area: Area2D) -> void:
+	print("Card ", card_name, " exited drop point: ", area.name)
 	targets.erase(area)
 
 func award_point() -> void:

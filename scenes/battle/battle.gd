@@ -29,10 +29,14 @@ var state_label: Label
 var player_card_selected: bool = false
 const WIN_SCORE = 3
 
+@onready var card_drop_zone: CardDropZone = $CardDropZone
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	print("Initializing Game")
 	var root_scene = get_tree().current_scene
+	card_drop_zone.card_dropped.connect(_on_card_dropped)
+	
 	state_label = root_scene.get_node("Game/StateLabel") as Label
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
@@ -243,3 +247,19 @@ func update_display() -> void:
 	player_hand.update_display()
 	npc_hand.update_display()
 	skirmish_display.update_display(skirmishes)
+
+# func _ready() -> void:
+	# 
+
+func _on_card_dropped(card_ui: CardUI) -> void:
+	if state == TurnState.PLAYER_PLAYS_CARD:
+		print("Player dropped card: ", card_ui.card_name)
+		skirmishes.back().playerCard = card_ui
+		player_hand.remove_child(card_ui)
+		skirmish_display.update_display(skirmishes)
+		advance(TurnState.NPC_PLAYS_CARD)
+	else:
+		print("Card dropped in invalid state: ", TurnState.keys()[state])
+	# var p := get_parent()
+	# if p and p.has_method("place_card"):
+	# 	p.call("place_card", card_ui)
