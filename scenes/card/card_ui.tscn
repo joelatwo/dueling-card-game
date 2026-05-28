@@ -33,6 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0.5, 0.5, 0.5, 1)
 
 [node name="State" type="Label" parent="." unique_id=987654321]
@@ -42,6 +43,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_472ju")
+theme_override_font_sizes/font_size = 30
 text = "Card"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -70,26 +72,6 @@ state = 2
 [node name="CardReleasedState" type="Node" parent="CardStateMachine" unique_id=1760616119]
 script = ExtResource("7_hnt4k")
 state = 4
-
-[node name="Color2" type="ColorRect" parent="." unique_id=2090373436]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0.7882353, 1, 1)
-
-[node name="State2" type="Label" parent="." unique_id=877699388]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_472ju")
-text = "State"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="Ability" type="Label" parent="." unique_id=397292825]
 layout_mode = 1

@@ -15,6 +15,8 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 @onready var targets: Array[Node] = []
 @onready var CardAbilityClass: CardAbility = CardAbility.new()
 
+var dragging := false
+var drag_offset := Vector2.ZERO
 var power: int = 0
 var ability_text: String = ""
 var card_name: String = ""
@@ -38,6 +40,7 @@ func activate_ability():
 
 func _ready() -> void:
 	call_deferred("update_display")
+	card_state_machine.init(self) 
 	# update_display()
 	# print(self.get_meta_list())
 
