@@ -12,7 +12,7 @@ extends Control
 
 signal area_entered(area: Area2D)
 signal area_exited(area: Area2D)
-signal card_dropped(card_ui: CardUI)
+
 
 func _ready() -> void:
 	# Set initial state
@@ -28,7 +28,3 @@ func _on_drop_zone_area_entered(area: Area2D) -> void:
 func _on_drop_zone_area_exited(area: Area2D) -> void:
 	if is_active:
 		area_exited.emit(area)
-
-
-func handle_card_dropped(card_ui: CardUI) -> void:
-	card_dropped.emit(card_ui)

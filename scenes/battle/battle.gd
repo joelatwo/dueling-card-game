@@ -13,6 +13,7 @@ enum TurnState {
 const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 const DeckLoader = preload("res://scenes/deck/deck_loader.gd")
 const CARD_SCENE: PackedScene = preload("res://scenes/card/card_ui.tscn")
+signal card_dropped(card_ui: CardUI)
 
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
@@ -35,7 +36,7 @@ const WIN_SCORE = 3
 func _ready() -> void:
 	print("Initializing Game")
 	var root_scene = get_tree().current_scene
-	card_drop_zone.card_dropped.connect(_on_card_dropped)
+	# card_drop_zone.card_dropped.connect(_on_card_dropped)
 	
 	state_label = root_scene.get_node("Game/StateLabel") as Label
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
@@ -111,12 +112,11 @@ func _process_state() -> void:
 func _start_of_turn() -> void:
 	print("Start of turn")
 	skirmishes.append(Skirmish.new())
-	print("Moving to player card selection...")
 
 	# Temp play left most card. In the future, this will be replaced by player input to select a card.
-	var card = player_hand.get_child(0)
-	player_hand.remove_child(card)
-	skirmishes.back().playerCard = card
+	# var card = player_hand.get_child(0)
+	# player_hand.remove_child(card)
+	# skirmishes.back().playerCard = card
 
 	skirmish_display.update_display(skirmishes)
 	advance(TurnState.PLAYER_PLAYS_CARD)
@@ -203,7 +203,6 @@ func _recalculate() -> void:
 	print("Recalculating")
 	for skirmish in skirmishes:
 		if skirmish.playerCard != null and skirmish.opponentCard != null:
-			print(skirmish.playerCard.power, " vs ", skirmish.opponentCard.power)
 			if skirmish.playerCard.power > skirmish.opponentCard.power:
 				skirmish.playerCard.award_point()
 				skirmish.opponentCard.remove_point()
@@ -252,14 +251,27 @@ func update_display() -> void:
 	# 
 
 func _on_card_dropped(card_ui: CardUI) -> void:
-	if state == TurnState.PLAYER_PLAYS_CARD:
-		print("Player dropped card: ", card_ui.card_name)
-		skirmishes.back().playerCard = card_ui
-		player_hand.remove_child(card_ui)
-		skirmish_display.update_display(skirmishes)
-		advance(TurnState.NPC_PLAYS_CARD)
-	else:
-		print("Card dropped in invalid state: ", TurnState.keys()[state])
+	print("Card dropped: ", card_ui.card_name)
+	# if state == TurnState.PLAYER_PLAYS_CARD:
+	# 	print("Player dropped card: ", card_ui.card_name)
+	# 	skirmishes.back().playerCard = card_ui
+	# 	player_hand.remove_child(card_ui)
+	# 	skirmish_display.update_display(skirmishes)
+	# 	advance(TurnState.NPC_PLAYS_CARD)
+	# else:
+	# 	print("Card dropped in invalid state: ", TurnState.keys()[state])
 	# var p := get_parent()
 	# if p and p.has_method("place_card"):
 	# 	p.call("place_card", card_ui)
+
+func player_played_card(card_ui: CardUI) -> void:
+	print("Player played card: ", card_ui.card_name)
+	# skirmishes.back().playerCard = card_ui
+	# player_hand.remove_child(card_ui)
+	# skirmish_display.update_display(skirmishes)
+	# advance(TurnState.NPC_PLAYS_CARD)
+
+
+func handle_card_dropped(card_ui: CardUI) -> void:
+	print("Card was played")
+	card_dropped.emit(card_ui)

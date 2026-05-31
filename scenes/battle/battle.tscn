@@ -25,6 +25,25 @@ centered = false
 layer = 2
 script = ExtResource("4_0yh6x")
 
+[node name="CardDropZone" type="Control" parent="Game" unique_id=2115705237]
+layout_mode = 3
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -538.0
+offset_right = -251.0
+offset_bottom = 287.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_pll4o")
+
+[node name="DropZone" type="Area2D" parent="Game/CardDropZone" unique_id=1110059509]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/CardDropZone/DropZone" unique_id=81191035]
+position = Vector2(832, 416)
+shape = SubResource("RectangleShape2D_xd4uy")
+
 [node name="NPC Hand" type="HBoxContainer" parent="Game" unique_id=364427493]
 anchors_preset = 10
 anchor_right = 1.0
@@ -129,18 +148,6 @@ anchor_bottom = 0.5
 offset_top = -291.0
 offset_right = -236.0
 offset_bottom = 236.0
-
-[node name="CardDropZone" type="Control" parent="Game" unique_id=2115705237]
-layout_mode = 3
-anchors_preset = 0
-script = ExtResource("2_pll4o")
-
-[node name="DropZone" type="Area2D" parent="Game/CardDropZone" unique_id=1110059509]
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/CardDropZone/DropZone" unique_id=81191035]
-position = Vector2(835.5, 411.5)
-shape = SubResource("RectangleShape2D_xd4uy")
 
 [connection signal="area_entered" from="Game/CardDropZone/DropZone" to="Game/CardDropZone" method="_on_drop_zone_area_entered"]
 [connection signal="area_exited" from="Game/CardDropZone/DropZone" to="Game/CardDropZone" method="_on_drop_zone_area_exited"]

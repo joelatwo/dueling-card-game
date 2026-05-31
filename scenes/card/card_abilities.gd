@@ -9,6 +9,5 @@ func execute(user, target, game_state):
 	push_error("Ability.execute() not implemented")
 
 func increaseMyPower(card: CardUI, amount = 1):
-	print(card.power)
 	card.power += amount
 	card.power_label.text = str(card.power)

@@ -12,6 +12,5 @@ func clear_display() -> void:
 		self.remove_child(child)
 	
 func refresh() -> void:
-	print("Refreshing hand display with ", cardList.size(), " cards.")
 	for card in cardList:
 		add_child(card)

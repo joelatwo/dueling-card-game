@@ -18,7 +18,6 @@ func refresh() -> void:
 	add_cards_to_display()
 
 func clear_display() -> void:
-	print("Count", NPCList.get_child_count(), PCList.get_child_count())
 	for child in PCList.get_children():
 		PCList.remove_child(child)
 	for child in NPCList.get_children():
@@ -28,10 +27,8 @@ func add_cards_to_display() -> void:
 	for skirmish in skirmishes:
 		if (skirmish.opponentCard != null):
 			var npc_card := skirmish.opponentCard
-			print("Adding NPC card: ", npc_card.name)
 			NPCList.add_child(npc_card)
 		else:
-			print("Adding NPC placeholder")
 			var placeholder := NPC_CARD_PLACEHOLDER_SCENE.instantiate()
 			NPCList.add_child(placeholder)
 			

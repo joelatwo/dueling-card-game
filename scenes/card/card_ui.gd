@@ -24,10 +24,8 @@ var card_name: String = ""
 func setup(props):
 	# { "power": 5.0, "abilityText": "Deal 2 damage to opponent", "name": "Fireball"}
 	power = props.get("power", 0)
-	print("printing power: ", props.get("power"), " vs ", power)
 	ability_text = props.get("abilityText", "")
 	card_name = props.get("name", "")
-	print(props, "Initialized card with name: ", card_name, " power: ", power, " ability text: ", ability_text)
 	# update_display()
 	# card_state_machine.init(self)
 	
@@ -36,13 +34,10 @@ func activate_ability():
 	var ability_functions: Array = self.get_meta("AbilityFunctionList")
 	for func_name in ability_functions:
 		CardAbilityClass.call(func_name, self)
-		print("Activated ability function: ", func_name)
 
 func _ready() -> void:
 	call_deferred("update_display")
-	card_state_machine.init(self) 
-	# update_display()
-	# print(self.get_meta_list())
+	card_state_machine.init(self)
 
 func _input(event: InputEvent) -> void:
 	card_state_machine.on_input(event)
@@ -57,13 +52,16 @@ func _on_mouse_exited() -> void:
 	card_state_machine.on_mouse_exited()
 
 func _on_drop_point_detector_area_entered(area: Area2D) -> void:
+	print("Entered drop point detector area: ", self.name)
 	if not targets.has(area):
-		print("Card ", card_name, " entered drop point: ", area.name)
 		targets.append(area)
 
 func _on_drop_point_detector_area_exited(area: Area2D) -> void:
-	print("Card ", card_name, " exited drop point: ", area.name)
+	print("Exited drop point detector area: ", self.name)
 	targets.erase(area)
+
+func _card_dropped() -> void:
+	print("Card dropped: ", self.name)
 
 func award_point() -> void:
 	var newPoint = AwardedPoint.instantiate()
@@ -74,7 +72,6 @@ func remove_point() -> void:
 		PointsAwardedArea.get_child(PointsAwardedArea.get_child_count() - 1).queue_free()
 
 func update_display() -> void:
-	print("Updating display for card: ", power, card_name, ability_text)
 	power_label.text = str(power)
 	name_label.text = card_name
 	ability_text_label.text = str(ability_text)
