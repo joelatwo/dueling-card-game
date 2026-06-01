@@ -31,7 +31,8 @@ func play_card() -> void:
 	if target_area:
 		var maybe_drop_zone := target_area.get_parent()
 		if maybe_drop_zone is CardDropZone:
-			(maybe_drop_zone as CardDropZone).handle_card_dropped(card_ui)
+			print("Emitting card dropped signal")
+			SignalBus.card_dropped.emit(card_ui)
 
 func undo_play_card() -> void:
 	var parent = card_ui.get_parent()

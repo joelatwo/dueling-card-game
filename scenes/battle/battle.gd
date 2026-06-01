@@ -13,7 +13,6 @@ enum TurnState {
 const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 const DeckLoader = preload("res://scenes/deck/deck_loader.gd")
 const CARD_SCENE: PackedScene = preload("res://scenes/card/card_ui.tscn")
-signal card_dropped(card_ui: CardUI)
 
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
@@ -36,13 +35,14 @@ const WIN_SCORE = 3
 func _ready() -> void:
 	print("Initializing Game")
 	var root_scene = get_tree().current_scene
-	# card_drop_zone.card_dropped.connect(_on_card_dropped)
+	SignalBus.card_dropped.connect(_on_card_dropped)
 	
 	state_label = root_scene.get_node("Game/StateLabel") as Label
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 
 	player_deck = _load_deck(("res://scenes/deck/deck.json"))
+	print("Player deck loaded with ", player_deck.cardList.size(), " cards.")
 	player_hand = root_scene.get_node("Game/Player Hand") as Hand
 
 	npc_deck = _load_deck(("res://scenes/deck/deck.json"))
@@ -51,8 +51,9 @@ func _ready() -> void:
 	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as SkirmishDisplay
 	
 	player_hand.cardList = player_deck.draw(5)
+	print("PLayer Deck has ", player_deck.cardList.size(), " cards.")
 	npc_hand.cardList = npc_deck.draw(5)
-	print("Player deck initialized with ", player_hand.cardList[0].power, " cards.")
+	print("NPC Deck has ", npc_deck.cardList.size(), " cards.")
 	
 	call_deferred("advance", TurnState.START_OF_TURN)
 	print("Game started")
@@ -165,7 +166,7 @@ func _compare_cards() -> void:
 func _confirm_activate_ability() -> void:
 	print("Confirming ability activation")
 	# For now, just automatically activate the ability
-	#advance(TurnState.RECALCULATE)
+	advance(TurnState.RECALCULATE)
 
 func _award_point() -> void:
 	print("Awarding point")
@@ -231,6 +232,8 @@ func _check_end_condition() -> void:
 		print("NPC wins the game!")
 	else:
 		print("Continuing to next turn")
+		player_hand.cardList = player_deck.draw(1)
+		npc_hand.cardList = npc_deck.draw(1)
 		advance(TurnState.START_OF_TURN)
 
 func _load_deck(path: String) -> Deck:
@@ -243,6 +246,9 @@ func _load_deck(path: String) -> Deck:
 	return new_deck
 
 func update_display() -> void:
+	player_deck.update_display(player_deck.cardList)
+	npc_deck.update_display(npc_deck.cardList)
+
 	player_hand.update_display()
 	npc_hand.update_display()
 	skirmish_display.update_display(skirmishes)
@@ -252,26 +258,24 @@ func update_display() -> void:
 
 func _on_card_dropped(card_ui: CardUI) -> void:
 	print("Card dropped: ", card_ui.card_name)
-	# if state == TurnState.PLAYER_PLAYS_CARD:
+	if state == TurnState.PLAYER_PLAYS_CARD:
 	# 	print("Player dropped card: ", card_ui.card_name)
-	# 	skirmishes.back().playerCard = card_ui
-	# 	player_hand.remove_child(card_ui)
-	# 	skirmish_display.update_display(skirmishes)
+		var currentPLayerCard = skirmishes.back().playerCard
+		if currentPLayerCard != null:
+			player_hand.cardList.append(currentPLayerCard)
+			print("Returned previous card to hand: ", currentPLayerCard.card_name)
+
+		# currentPLayerCard.remove_from_parent()
+		player_hand.cardList.remove_at(player_hand.cardList.find(card_ui))
+		print(card_ui, "removed from ", player_hand.cardList, " cards left in hand after removing dropped card")
+		skirmishes.back().playerCard = card_ui
+
+		update_display()
 	# 	advance(TurnState.NPC_PLAYS_CARD)
 	# else:
 	# 	print("Card dropped in invalid state: ", TurnState.keys()[state])
 	# var p := get_parent()
 	# if p and p.has_method("place_card"):
 	# 	p.call("place_card", card_ui)
-
-func player_played_card(card_ui: CardUI) -> void:
-	print("Player played card: ", card_ui.card_name)
-	# skirmishes.back().playerCard = card_ui
-	# player_hand.remove_child(card_ui)
-	# skirmish_display.update_display(skirmishes)
-	# advance(TurnState.NPC_PLAYS_CARD)
-
-
-func handle_card_dropped(card_ui: CardUI) -> void:
-	print("Card was played")
-	card_dropped.emit(card_ui)
+	else:
+		print("Card dropped in invalid state: ", TurnState.keys()[state])

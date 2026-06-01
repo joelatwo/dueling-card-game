@@ -14,6 +14,10 @@ config/name="Dueling Card Game"
 run/main_scene="uid://cr510ot20d3nx"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
+[autoload]
+
+SignalBus="*uid://ddu6e5x4tt3ll"
+
 [display]
 
 window/size/viewport_width=1920

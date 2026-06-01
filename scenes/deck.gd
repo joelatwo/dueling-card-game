@@ -18,8 +18,8 @@ func clear_display() -> void:
 func refresh() -> void:
 	var deckLength = cardList.size()
 	if(deckLength > 0):
+		print("Deck has ", deckLength, " cards.")
 		var cardBack = CARD_BACK_SCENE.instantiate()
-		cardBack.count = deckLength
 		add_child(cardBack)
 	else:
 		var emptyDeck = EMPTY_DECK_SCENE.instantiate()
