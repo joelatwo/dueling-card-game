@@ -17,18 +17,18 @@ const CARD_SCENE: PackedScene = preload("res://scenes/card/card_ui.tscn")
 var skirmishes: Array[Skirmish] = []
 var state: TurnState = TurnState.START_OF_TURN
 
-var player_score: int = 0
 var npc_score: int = 0
 var player_hand: Hand
-var player_deck: Deck
 var npc_hand: Hand
-var npc_deck: Deck
+var player_score: int = 0
 var skirmish_display: SkirmishDisplay
 var play_cards_button: Button
 var state_label: Label
 var player_card_selected: bool = false
 const WIN_SCORE = 3
 
+@onready var player_deck: Deck = %PCDeck
+@onready var npc_deck: Deck = %NPCDeck
 @onready var card_drop_zone: CardDropZone = $CardDropZone
 
 # Called when the node enters the scene tree for the first time.
@@ -41,11 +41,11 @@ func _ready() -> void:
 	play_cards_button = root_scene.get_node("Game/PlayCardsButton") as Button
 	play_cards_button.pressed.connect(_on_play_cards_button_pressed)
 
-	player_deck = _load_deck(("res://scenes/deck/deck.json"))
+	_load_deck(("res://scenes/deck/deck.json"), player_deck)
 	print("Player deck loaded with ", player_deck.cardList.size(), " cards.")
 	player_hand = root_scene.get_node("Game/Player Hand") as Hand
 
-	npc_deck = _load_deck(("res://scenes/deck/deck.json"))
+	_load_deck(("res://scenes/deck/deck.json"), npc_deck)
 	npc_hand = root_scene.get_node("Game/NPC Hand") as Hand
 
 	skirmish_display = root_scene.get_node("Game/SkirmishDisplay") as SkirmishDisplay
@@ -236,14 +236,12 @@ func _check_end_condition() -> void:
 		npc_hand.cardList = npc_deck.draw(1)
 		advance(TurnState.START_OF_TURN)
 
-func _load_deck(path: String) -> Deck:
+func _load_deck(path: String, deck: Deck) -> void:
 	var cardDataArray = DeckLoader.initialize_deck(path)
-	var new_deck = Deck.new()
 	for cardData in cardDataArray:
 		var card = CARD_SCENE.instantiate()
 		card.setup(cardData)
-		new_deck.cardList.append(card)
-	return new_deck
+		deck.cardList.append(card)
 
 func update_display() -> void:
 	player_deck.update_display(player_deck.cardList)

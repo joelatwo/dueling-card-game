@@ -6,6 +6,10 @@ const EMPTY_DECK_SCENE: PackedScene = preload("res://scenes/deck/empty_deck.tscn
 
 var cardList: Array[CardUI] = []
 
+func onready () -> void:
+	print("Ready with cardList", cardList.size())
+	refresh()
+
 func update_display(new_items: Array) -> void:
 	cardList = new_items
 	clear_display()
@@ -17,7 +21,7 @@ func clear_display() -> void:
 	
 func refresh() -> void:
 	var deckLength = cardList.size()
-	if(deckLength > 0):
+	if (deckLength > 0):
 		print("Deck has ", deckLength, " cards.")
 		var cardBack = CARD_BACK_SCENE.instantiate()
 		add_child(cardBack)

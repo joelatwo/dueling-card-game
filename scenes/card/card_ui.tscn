@@ -49,6 +49,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DropPointDetector" type="Area2D" parent="." unique_id=443549441]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DropPointDetector" unique_id=443549442]
 position = Vector2(100, 124.5)

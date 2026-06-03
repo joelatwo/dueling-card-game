@@ -39,6 +39,7 @@ grow_vertical = 2
 script = ExtResource("2_pll4o")
 
 [node name="DropZone" type="Area2D" parent="Game/CardDropZone" unique_id=1110059509]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/CardDropZone/DropZone" unique_id=81191035]
 position = Vector2(832, 416)
@@ -72,7 +73,8 @@ metadata/Power = 3
 metadata/name = "Surgeon"
 metadata/AbilityFunctionList = ["increaseMyPower"]
 
-[node name="NPC Deck" parent="Game" unique_id=180238213 instance=ExtResource("6_fh7rg")]
+[node name="NPCDeck" parent="Game" unique_id=180238213 instance=ExtResource("6_fh7rg")]
+unique_name_in_owner = true
 position = Vector2(1668, 4)
 
 [node name="Player Hand" type="HBoxContainer" parent="Game" unique_id=1868080579]
@@ -105,7 +107,8 @@ metadata/Power = 10
 metadata/name = "Surgeon"
 metadata/AbilityFunctionList = ["increaseMyPower"]
 
-[node name="PC Deck" parent="Game" unique_id=1331633349 instance=ExtResource("6_fh7rg")]
+[node name="PCDeck" parent="Game" unique_id=1331633349 instance=ExtResource("6_fh7rg")]
+unique_name_in_owner = true
 position = Vector2(1669, 779)
 
 [node name="PlayCardsButton" type="Button" parent="Game" unique_id=1999999999]

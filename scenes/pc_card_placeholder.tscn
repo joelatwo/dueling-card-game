@@ -1,17 +1,12 @@
 [gd_scene format=3 uid="uid://maqjg3ainjr4"]
 
-[ext_resource type="Script" path="res://scenes/pc_card_placeholder.gd" id="1_pc_placeholder_script"]
-[ext_resource type="PackedScene" path="res://scenes/card/card_drop_zone.tscn" id="2_card_drop_zone_scene"]
+[ext_resource type="Script" uid="uid://d2upkob6coige" path="res://scenes/pc_card_placeholder.gd" id="1_pc_placeholder_script"]
 
 [node name="PCCardPlaceholder" type="PanelContainer" unique_id=1222930126]
-custom_minimum_size = Vector2(25, 30)
+custom_minimum_size = Vector2(250, 300)
 offset_right = 80.0
 offset_bottom = 100.0
 script = ExtResource("1_pc_placeholder_script")
-
-[node name="CardDropZone" parent="." unique_id=2147248019 instance=ExtResource("2_card_drop_zone_scene")]
-custom_minimum_size = Vector2(200, 250)
-is_active = true
 
 [node name="Label" type="Label" parent="." unique_id=810062440]
 layout_mode = 2

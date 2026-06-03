@@ -12,7 +12,6 @@ const AwardedPoint: PackedScene = preload("res://scenes/awarded_point.tscn")
 @onready var ability_text_label: Label = $Ability
 @onready var PointsAwardedArea: BoxContainer = $PointsAwardedArea
 @onready var drop_point_detector: Area2D = $DropPointDetector
-@onready var targets: Array[Node] = []
 @onready var CardAbilityClass: CardAbility = CardAbility.new()
 
 var dragging := false
@@ -33,11 +32,11 @@ func setup(props):
 func activate_ability():
 	var ability_functions: Array = self.get_meta("AbilityFunctionList")
 	for func_name in ability_functions:
-		CardAbilityClass.call(func_name, self)
+		CardAbilityClass.call(func_name, self )
 
 func _ready() -> void:
 	call_deferred("update_display")
-	card_state_machine.init(self)
+	card_state_machine.init(self )
 
 func _input(event: InputEvent) -> void:
 	card_state_machine.on_input(event)
@@ -50,15 +49,6 @@ func _on_mouse_entered() -> void:
 	
 func _on_mouse_exited() -> void:
 	card_state_machine.on_mouse_exited()
-
-func _on_drop_point_detector_area_entered(area: Area2D) -> void:
-	print("Entered drop point detector area: ", self.name)
-	if not targets.has(area):
-		targets.append(area)
-
-func _on_drop_point_detector_area_exited(area: Area2D) -> void:
-	print("Exited drop point detector area: ", self.name)
-	targets.erase(area)
 
 func _card_dropped() -> void:
 	print("Card dropped: ", self.name)
