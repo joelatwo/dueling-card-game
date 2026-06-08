@@ -9,14 +9,14 @@ func enter() -> void:
 	card_ui.state.text = "Released"
 
 	played = false
-	
-	# if not card_ui.targets.is_empty():
-		# print("Playing card with targets")
-	play_card()
-	# else:
-		# print("Canceling Card")
-		# undo_play_card()
+	var overlapping_areas = card_ui.drop_point_detector.get_overlapping_areas()
+	for area in overlapping_areas:
+		if(area.name == "CardPlayedConfirmDropZone"):
+			play_card()
+			return
 
+	undo_play_card()
+	
 func on_input(_event: InputEvent) -> void:
 	if played:
 		return
@@ -24,12 +24,6 @@ func on_input(_event: InputEvent) -> void:
 	transition_requested.emit(self , CardState.State.BASE)
 
 func play_card() -> void:
-	# played = true
-	# var target_area := card_ui.targets[0] as Area2D
-	# if target_area:
-		# var maybe_drop_zone := target_area.get_parent()
-		# if maybe_drop_zone is CardDropZone:
-			# print("Emitting card dropped signal")
 	SignalBus.card_dropped.emit(card_ui)
 
 func undo_play_card() -> void:

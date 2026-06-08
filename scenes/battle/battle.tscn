@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dni5skxfq5h5q" path="res://scenes/battle/skirmish_display.tscn" id="7_skirmish_dsp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xd4uy"]
-size = Vector2(1665, 829)
+size = Vector2(1665, 651.5)
 
 [node name="Battle" type="Node2D" unique_id=1134976482]
 
@@ -26,6 +26,7 @@ layer = 2
 script = ExtResource("4_0yh6x")
 
 [node name="CardDropZone" type="Control" parent="Game" unique_id=2115705237]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 14
 anchor_top = 0.5
@@ -33,16 +34,17 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 offset_top = -538.0
 offset_right = -251.0
-offset_bottom = 287.0
+offset_bottom = 115.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_pll4o")
+is_active = true
 
-[node name="DropZone" type="Area2D" parent="Game/CardDropZone" unique_id=1110059509]
+[node name="CardPlayedConfirmDropZone" type="Area2D" parent="Game/CardDropZone" unique_id=1110059509]
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/CardDropZone/DropZone" unique_id=81191035]
-position = Vector2(832, 416)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game/CardDropZone/CardPlayedConfirmDropZone" unique_id=81191035]
+position = Vector2(832, 327.25)
 shape = SubResource("RectangleShape2D_xd4uy")
 
 [node name="NPC Hand" type="HBoxContainer" parent="Game" unique_id=364427493]
@@ -152,5 +154,5 @@ offset_top = -291.0
 offset_right = -236.0
 offset_bottom = 236.0
 
-[connection signal="area_entered" from="Game/CardDropZone/DropZone" to="Game/CardDropZone" method="_on_drop_zone_area_entered"]
-[connection signal="area_exited" from="Game/CardDropZone/DropZone" to="Game/CardDropZone" method="_on_drop_zone_area_exited"]
+[connection signal="area_entered" from="Game/CardDropZone/CardPlayedConfirmDropZone" to="Game/CardDropZone" method="_on_drop_zone_area_entered"]
+[connection signal="area_exited" from="Game/CardDropZone/CardPlayedConfirmDropZone" to="Game/CardDropZone" method="_on_drop_zone_area_exited"]

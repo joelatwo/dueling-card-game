@@ -222,6 +222,8 @@ func _recalculate() -> void:
 		print("NPC wins the game!")
 	else:
 		print("Continuing to next turn")
+		player_hand.cardList.append_array(player_deck.draw(1))
+		npc_hand.cardList.append_array(npc_deck.draw(1))
 		advance(TurnState.START_OF_TURN)
 
 func _check_end_condition() -> void:
@@ -232,8 +234,6 @@ func _check_end_condition() -> void:
 		print("NPC wins the game!")
 	else:
 		print("Continuing to next turn")
-		player_hand.cardList = player_deck.draw(1)
-		npc_hand.cardList = npc_deck.draw(1)
 		advance(TurnState.START_OF_TURN)
 
 func _load_deck(path: String, deck: Deck) -> void:
@@ -260,11 +260,10 @@ func _on_card_dropped(card_ui: CardUI) -> void:
 	# 	print("Player dropped card: ", card_ui.card_name)
 		var currentPLayerCard = skirmishes.back().playerCard
 		if currentPLayerCard != null:
-			player_hand.cardList.append(currentPLayerCard)
-			print("Returned previous card to hand: ", currentPLayerCard.card_name)
+			_return_card_to_player_hand(currentPLayerCard)
 
 		# currentPLayerCard.remove_from_parent()
-		player_hand.cardList.remove_at(player_hand.cardList.find(card_ui))
+		player_hand.cardList.erase(card_ui)
 		print(card_ui, "removed from ", player_hand.cardList, " cards left in hand after removing dropped card")
 		skirmishes.back().playerCard = card_ui
 
@@ -277,3 +276,11 @@ func _on_card_dropped(card_ui: CardUI) -> void:
 	# 	p.call("place_card", card_ui)
 	else:
 		print("Card dropped in invalid state: ", TurnState.keys()[state])
+		# Return it from whence it came. I believe players hand.
+
+func _return_card_to_player_hand(card_ui: CardUI) -> void:
+	print("Returning card to player hand: ",card_ui, JSON.stringify(player_hand.cardList))
+	if card_ui.get_parent():
+		card_ui.get_parent().remove_child(card_ui)
+	player_hand.cardList.append(card_ui)
+	print("Returning card to player hand: ", JSON.stringify(player_hand.cardList))

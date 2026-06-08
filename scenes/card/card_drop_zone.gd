@@ -1,7 +1,7 @@
 class_name CardDropZone
 extends Control
 
-@onready var drop_zone: Area2D = $DropZone
+@onready var drop_zone: Area2D = $CardPlayedConfirmDropZone
 
 @export var is_active: bool = false:
 	set(value):
